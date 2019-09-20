@@ -1,6 +1,7 @@
 import {
   SET_UP_BOARD,
   REVEAL_TILE,
+  REVEAL_EMPTY_TILES
 } from '../constants/actionTypes';
 
 const initialState = {
@@ -21,9 +22,13 @@ const initialState = {
         return { 
           ...state, 
           byId: { ...state.byId, [tileId]: { ...state.byId[tileId], isVisible: true }},
-          // byId = {...byId, ['9-8']: {...byId['9-8'], isVisible: true}}
-          // byId[action.id]: { ...state.byId[action.id], ...action.payload},
-        };        
+        };
+      case REVEAL_EMPTY_TILES:
+          const tilesToRevealIds = action.payload;
+          return { 
+            ...state, 
+            byId: { ...state.byId, ...tilesToRevealIds},
+          };
       default:
         return state;
     }

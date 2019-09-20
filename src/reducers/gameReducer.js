@@ -6,7 +6,7 @@ import {
 
 const initialState = {
   size: 10,
-  mineCount: 50,
+  mineCount: 10,
   score: 0,
   isGameOver: false,
 };

@@ -12,7 +12,8 @@ const Board = props => {
     handleIsGameOver, 
     handleScore, 
     setUpBoard,
-    revealTile
+    revealTile,
+    revealEmptyTiles
   } = props;
 
   useEffect(() => {
@@ -25,7 +26,14 @@ const Board = props => {
     if (tile.isMine) {
       handleIsGameOver();
     }
-    handleScore()
+    if (!tile.isVisible) {
+      handleScore()  
+    }
+    if (tile.value === 0) {
+      revealEmptyTiles(tile, board);
+
+    }
+    // handleScore()
   }
 
   return (
@@ -79,7 +87,7 @@ const Tile = props => {
         ) : (
             <div style={{ ...styles.tile, ...styles.revealedTile }}>
               <div style={{ flex: 1 }}>
-                {(tile.isMine) ? 'mine' : tile.value}
+                {(tile.value === 0) ? '' : tile.value}
               </div>
             </div>
           )
@@ -123,7 +131,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   setUpBoard: (size, mineCount) => dispatch(BoardActions.setUpBoard(size, mineCount)),
-  revealTile: (tileId) => dispatch(BoardActions.revealTile(tileId))
+  revealTile: (tileId) => dispatch(BoardActions.revealTile(tileId)),
+  revealEmptyTiles: (tile, board) => dispatch(BoardActions.revealEmptyTiles(tile, board))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Board);

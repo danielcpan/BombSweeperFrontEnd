@@ -1,8 +1,12 @@
 import {
   SET_UP_BOARD,
-  REVEAL_TILE
+  REVEAL_TILE,
+  REVEAL_EMPTY_TILES
 } from '../constants/actionTypes';
-import { initBoard } from '../models/Board';
+import store from '../store';
+import { selectTiles } from '../reducers/boardReducer';
+
+import { initBoard, getAdjacentTiles, revealEmpty } from '../models/Board';
 
 export const setUpBoard = (size, mineCount) => async dispatch => {
   const board = initBoard(size, mineCount);
@@ -29,3 +33,15 @@ export const revealTile = (tileId) => ({
   type: REVEAL_TILE,
   payload: tileId,
 })
+
+export const revealEmptyTiles = (tile, board) => async dispatch => {
+  const boardClone = board.map(row => row.map(tile => ({ ...tile})));
+  const tilesToReveal = revealEmpty(tile.x, tile.y, boardClone);
+  const tilesToRevealIds = {}
+  tilesToReveal.forEach(tile => tilesToRevealIds[tile.id] = tile);
+
+  dispatch({
+    type: REVEAL_EMPTY_TILES,
+    payload: tilesToRevealIds
+  })
+}

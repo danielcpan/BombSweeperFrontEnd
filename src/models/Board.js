@@ -63,9 +63,7 @@ export const isWithinBoard = (x, y, board) => {
 }
 
 export const revealEmpty = (x, y, board, tilesToReveal = []) => {
-  let adjacentTiles = getAdjacentTiles(x, y, board);
-  console.log("adjacentTiles: ")
-  console.log(adjacentTiles);
+  const adjacentTiles = getAdjacentTiles(x, y, board);
 
   adjacentTiles.forEach(tile => {
     if (tile && !tile.isVisible && tile.value === 0 && !tile.isMine) {

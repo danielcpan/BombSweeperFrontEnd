@@ -1,3 +1,5 @@
+// TO BE REMOVED
+
 function Game(size) {
   this.size = size;
   this.board = initBoard(size);

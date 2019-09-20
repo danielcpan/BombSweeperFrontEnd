@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import './App.css';
 import Board from './components/Board';
 import * as GameActions from './actions/gameActions';
 
@@ -15,13 +14,10 @@ const App = props => {
   } = props;
 
   const handleIsGameOver = () => {
-    console.log("here in handle game over")
     updateGameStatus({ isGameOver: true });
-    // updateGameSettings({ isGameOver: true });
   }
 
   const handleScore = () => {
-    console.log("here in handle score")
     updateGameScore(score + 1);
   }
 

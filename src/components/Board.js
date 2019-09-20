@@ -27,7 +27,7 @@ const Board = props => {
       handleIsGameOver();
     }
     if (!tile.isVisible) {
-      handleScore()  
+      handleScore()
     }
     if (tile.value === 0) {
       revealEmptyTiles(tile, board);
@@ -116,6 +116,7 @@ const styles = ({
     borderRadius: 5,
     height: 50,
     width: 50,
+    textAlign: 'center'
   },
   mineTile: {
     backgroundColor: 'red',

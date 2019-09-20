@@ -1,19 +1,28 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import './App.css';
 import Board from './components/Board';
+import * as GameActions from './actions/gameActions';
 
-const App = () => {
-  const [size, setSize] = useState(10);
-  const [mineCount, setMineCount] = useState(50);
-  const [score, setScore] = useState(0);
-  const [isGameOver, setIsGameOver] = useState(false);
+const App = props => {
+  const {
+    size,
+    mineCount,
+    score,
+    isGameOver,
+    updateGameStatus,
+    updateGameScore
+  } = props;
 
   const handleIsGameOver = () => {
-    setIsGameOver(true);
+    console.log("here in handle game over")
+    updateGameStatus({ isGameOver: true });
+    // updateGameSettings({ isGameOver: true });
   }
 
   const handleScore = () => {
-    setScore(score + 1);
+    console.log("here in handle score")
+    updateGameScore(score + 1);
   }
 
   return (
@@ -23,15 +32,28 @@ const App = () => {
       {(isGameOver) && (
         <div>GAME OVER</div>
       )}
-      <Board 
-        size={size} 
+      <Board
+        size={size}
         handleScore={handleScore}
-        mineCount={mineCount} 
-        isGameOver={isGameOver} 
-        handleIsGameOver={handleIsGameOver} 
+        mineCount={mineCount}
+        isGameOver={isGameOver}
+        handleIsGameOver={handleIsGameOver}
       />
     </div>
   );
 }
 
-export default App;
+const mapStateToProps = state => ({
+  size: state.game.size,
+  mineCount: state.game.mineCount,
+  score: state.game.score,
+  isGameOver: state.game.isGameOver,
+});
+
+const mapDispatchToProps = dispatch => ({
+  updateGameSettings: settings => dispatch(GameActions.updateGameSettings(settings)),
+  updateGameScore: score => dispatch(GameActions.updateGameScore(score)),
+  updateGameStatus: status => dispatch(GameActions.updateGameStatus(status))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

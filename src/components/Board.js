@@ -1,29 +1,31 @@
-import React, { useState, useEffect} from 'react';
-import { initBoard } from '../models/Board';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import * as BoardActions from '../actions/boardActions';
+import { selectTiles } from '../reducers/boardReducer';
 
 const Board = props => {
-  const { size, mineCount, isGameOver, handleIsGameOver, handleScore } = props;
-  const [board, setBoard] = useState(initBoard(size, mineCount))
+  const { 
+    board, 
+    size, 
+    mineCount, 
+    isGameOver, 
+    handleIsGameOver, 
+    handleScore, 
+    setUpBoard,
+    revealTile
+  } = props;
+
+  useEffect(() => {
+    setUpBoard(size, mineCount)
+  }, [])
 
   const handleClick = (tile) => {
     if (isGameOver) return;
-    const boardClone = board.map(row => row.slice());
-
-    for (let x = 0; x < boardClone.length; x++) {
-      for (let y = 0; y < boardClone.length; y++) {
-        const currentTile = boardClone[x][y];
-        if (currentTile.id === tile.id) {
-          currentTile.isVisible = true;
-          if (currentTile.isMine) {
-            handleIsGameOver();
-          } else {
-            handleScore();
-          }
-        }
-      }
+    revealTile(tile.id)
+    if (tile.isMine) {
+      handleIsGameOver();
     }
-
-    setBoard(boardClone);
+    handleScore()
   }
 
   return (
@@ -31,7 +33,12 @@ const Board = props => {
       <table>
         <tbody>
           {board.map((row, rowIdx) => (
-            <Row row={row} rowIdx={rowIdx} handleClick={handleClick}/>
+            <Row 
+              key={rowIdx}
+              row={row}
+              rowIdx={rowIdx} 
+              handleClick={handleClick}
+            />
           ))}
         </tbody>
       </table>
@@ -40,12 +47,16 @@ const Board = props => {
 }
 
 const Row = props => {
-  const { row, rowIdx, handleClick } = props;
+  const { row, handleClick } = props;
 
   return (
-    <tr key={rowIdx}>
+    <tr>
       {row.map(tile => (
-        <Tile tile={tile} handleClick={handleClick}/>
+        <Tile 
+          key={tile.id}
+          tile={tile} 
+          handleClick={handleClick} 
+        />
       ))}
     </tr>
   )
@@ -57,46 +68,46 @@ const Tile = props => {
 
 
   return (
-    <td key={tile.id} onClick={() => handleClick(tile)}>
+    <td onClick={() => handleClick(tile)}>
       {tile.isVisible ? (
         (tile.isMine) ? (
-          <div style={{...styles.tile, ...styles.mineTile}}>
-            <div style={{ flex: 1}}>
+          <div style={{ ...styles.tile, ...styles.mineTile }}>
+            <div style={{ flex: 1 }}>
               {(tile.isMine) ? 'mine' : tile.value}
             </div>
           </div>
         ) : (
-          <div style={{...styles.tile, ...styles.revealedTile}}>
-            <div style={{ flex: 1}}>
-              {(tile.isMine) ? 'mine' : tile.value}
+            <div style={{ ...styles.tile, ...styles.revealedTile }}>
+              <div style={{ flex: 1 }}>
+                {(tile.isMine) ? 'mine' : tile.value}
+              </div>
+            </div>
+          )
+      ) : (
+          <div style={{ ...styles.tile }}>
+            <div style={{ flex: 1 }}>
+              {/* {(tile.isMine) ? 'mine' : tile.value} */}
             </div>
           </div>
-        )
-      ) : (
-        <div style={{...styles.tile}}>
-          <div style={{ flex: 1}}>
-            {/* {(tile.isMine) ? 'mine' : tile.value} */}
-          </div>
-        </div>        
-      )}
+        )}
     </td>
   )
 }
 
 const styles = ({
   board: {
-    display: 'flex', 
-    justifyContent: 'center', 
+    display: 'flex',
+    justifyContent: 'center',
     alignItems: 'center',
     height: '100vh'
-  },  
-  tile:  {
-    display: 'flex', 
+  },
+  tile: {
+    display: 'flex',
     backgroundColor: '#59606f',
     alignItems: 'center',
-    borderRadius: 5, 
-    height: 50, 
-    width: 50,     
+    borderRadius: 5,
+    height: 50,
+    width: 50,
   },
   mineTile: {
     backgroundColor: 'red',
@@ -106,4 +117,13 @@ const styles = ({
   }
 })
 
-export default Board;
+const mapStateToProps = state => ({
+  board: selectTiles(state),
+});
+
+const mapDispatchToProps = dispatch => ({
+  setUpBoard: (size, mineCount) => dispatch(BoardActions.setUpBoard(size, mineCount)),
+  revealTile: (tileId) => dispatch(BoardActions.revealTile(tileId))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Board);

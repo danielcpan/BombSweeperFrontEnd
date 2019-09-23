@@ -23,7 +23,7 @@ const Board = props => {
   }, [])
 
   const handleLeftClick = tile => {
-    if (isGameOver || tile.isVisible) return;
+    if (isGameOver || (tile.isVisible && !tile.isFlagged)) return;
     revealTile(tile.id)
     if (tile.isMine) handleIsGameOver();
     if (!tile.isVisible) handleScore();
@@ -33,7 +33,7 @@ const Board = props => {
 
   const handleRightClick = (e, tile) => {
     e.preventDefault();
-    if (isGameOver || tile.isVisible) return;
+    if (isGameOver || (tile.isVisible && !tile.isFlagged)) return;
     toggleFlag(tile.id);
   }  
 

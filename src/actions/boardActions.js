@@ -1,7 +1,8 @@
 import {
   SET_UP_BOARD,
   REVEAL_TILE,
-  REVEAL_EMPTY_TILES
+  REVEAL_EMPTY_TILES,
+  TOGGLE_FLAG
 } from '../constants/actionTypes';
 import store from '../store';
 import { selectTiles } from '../reducers/boardReducer';
@@ -45,3 +46,8 @@ export const revealEmptyTiles = (tile, board) => async dispatch => {
     payload: tilesToRevealIds
   })
 }
+
+export const toggleFlag = tileId => ({
+  type: TOGGLE_FLAG,
+  payload: tileId,
+})

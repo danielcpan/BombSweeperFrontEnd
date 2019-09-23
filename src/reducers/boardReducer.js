@@ -1,7 +1,8 @@
 import {
   SET_UP_BOARD,
   REVEAL_TILE,
-  REVEAL_EMPTY_TILES
+  REVEAL_EMPTY_TILES,
+  TOGGLE_FLAG
 } from '../constants/actionTypes';
 
 const initialState = {
@@ -18,17 +19,29 @@ const initialState = {
           allIds: action.allIds
         };
       case REVEAL_TILE:
-        const tileId = action.payload;
         return { 
           ...state, 
-          byId: { ...state.byId, [tileId]: { ...state.byId[tileId], isVisible: true }},
+          byId: { 
+            ...state.byId, 
+            [action.payload]: { ...state.byId[action.payload], isVisible: true }},
         };
       case REVEAL_EMPTY_TILES:
-          const tilesToRevealIds = action.payload;
-          return { 
-            ...state, 
-            byId: { ...state.byId, ...tilesToRevealIds},
-          };
+        const tilesToRevealIds = action.payload;
+        return { 
+          ...state, 
+          byId: { ...state.byId, ...tilesToRevealIds},
+        };
+      case TOGGLE_FLAG:
+        return { 
+          ...state, 
+          byId: { 
+            ...state.byId, 
+            [action.payload]: { 
+              ...state.byId[action.payload], 
+              isFlagged: !state.byId[action.payload].isFlagged 
+            }
+          },
+        };
       default:
         return state;
     }

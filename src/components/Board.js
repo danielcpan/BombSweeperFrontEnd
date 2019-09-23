@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import * as BoardActions from '../actions/boardActions';
 import { selectTiles } from '../reducers/boardReducer';
+import Tile from './Tile';
 
 const Board = props => {
   const { 
@@ -13,39 +14,41 @@ const Board = props => {
     handleScore, 
     setUpBoard,
     revealTile,
-    revealEmptyTiles
+    revealEmptyTiles,
+    toggleFlag
   } = props;
 
   useEffect(() => {
     setUpBoard(size, mineCount)
   }, [])
 
-  const handleClick = (tile) => {
-    if (isGameOver) return;
+  const handleLeftClick = tile => {
+    if (isGameOver || tile.isVisible) return;
     revealTile(tile.id)
-    if (tile.isMine) {
-      handleIsGameOver();
-    }
-    if (!tile.isVisible) {
-      handleScore()
-    }
-    if (tile.value === 0) {
-      revealEmptyTiles(tile, board);
-
-    }
-    // handleScore()
+    if (tile.isMine) handleIsGameOver();
+    if (!tile.isVisible) handleScore();
+    // tile is empty
+    if (tile.value === 0) revealEmptyTiles(tile, board);
   }
+
+  const handleRightClick = (e, tile) => {
+    e.preventDefault();
+    if (isGameOver || tile.isVisible) return;
+    toggleFlag(tile.id);
+  }  
+
 
   return (
     <div style={styles.board}>
-      <table>
+      <table onContextMenu={e => e.preventDefault()}>
         <tbody>
           {board.map((row, rowIdx) => (
             <Row 
               key={rowIdx}
               row={row}
               rowIdx={rowIdx} 
-              handleClick={handleClick}
+              handleLeftClick={handleLeftClick}
+              handleRightClick={handleRightClick}
             />
           ))}
         </tbody>
@@ -55,7 +58,7 @@ const Board = props => {
 }
 
 const Row = props => {
-  const { row, handleClick } = props;
+  const { row, handleLeftClick, handleRightClick } = props;
 
   return (
     <tr>
@@ -63,44 +66,43 @@ const Row = props => {
         <Tile 
           key={tile.id}
           tile={tile} 
-          handleClick={handleClick} 
+          handleLeftClick={handleLeftClick} 
+          handleRightClick={handleRightClick}
         />
       ))}
     </tr>
   )
 }
 
-const Tile = props => {
-  const { tile, handleClick } = props;
-
-
-
-  return (
-    <td onClick={() => handleClick(tile)}>
-      {tile.isVisible ? (
-        (tile.isMine) ? (
-          <div style={{ ...styles.tile, ...styles.mineTile }}>
-            <div style={{ flex: 1 }}>
-              {(tile.isMine) ? 'mine' : tile.value}
-            </div>
-          </div>
-        ) : (
-            <div style={{ ...styles.tile, ...styles.revealedTile }}>
-              <div style={{ flex: 1 }}>
-                {(tile.value === 0) ? '' : tile.value}
-              </div>
-            </div>
-          )
-      ) : (
-          <div style={{ ...styles.tile }}>
-            <div style={{ flex: 1 }}>
-              {/* {(tile.isMine) ? 'mine' : tile.value} */}
-            </div>
-          </div>
-        )}
-    </td>
-  )
-}
+// const Tile = props => {
+//   const { tile, handleLeftClick, handleRightClick } = props;
+  
+//   return (
+//     <td onClick={() => handleLeftClick(tile)} onContextMenu={(e) => handleRightClick(e, tile)}>
+//       {tile.isVisible ? (
+//         (tile.isMine) ? (
+//           <div style={{ ...styles.tile, ...styles.mineTile }}>
+//             <div style={{ flex: 1 }}>
+//               {(tile.isMine) ? 'mine' : tile.value}
+//             </div>
+//           </div>
+//         ) : (
+//             <div style={{ ...styles.tile, ...styles.revealedTile }}>
+//               <div style={{ flex: 1 }}>
+//                 {(tile.value === 0) ? '' : tile.value}
+//               </div>
+//             </div>
+//           )
+//       ) : (
+//           <div style={{ ...styles.tile }}>
+//             <div style={{ flex: 1 }}>
+//               {/* {(tile.isMine) ? 'mine' : tile.value} */}
+//             </div>
+//           </div>
+//         )}
+//     </td>
+//   )
+// }
 
 const styles = ({
   board: {
@@ -133,7 +135,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   setUpBoard: (size, mineCount) => dispatch(BoardActions.setUpBoard(size, mineCount)),
   revealTile: (tileId) => dispatch(BoardActions.revealTile(tileId)),
-  revealEmptyTiles: (tile, board) => dispatch(BoardActions.revealEmptyTiles(tile, board))
+  revealEmptyTiles: (tile, board) => dispatch(BoardActions.revealEmptyTiles(tile, board)),
+  toggleFlag: tileId => dispatch(BoardActions.toggleFlag(tileId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Board);

@@ -4,6 +4,7 @@ function Tile(x,y) {
   this.y = y;
   this.value = null;
   this.isMine = false;
+  this.isFlagged = false;
   this.isVisible = false;
 }
 

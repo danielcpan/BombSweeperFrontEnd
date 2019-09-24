@@ -67,13 +67,13 @@ export const revealEmpty = (x, y, board, tilesToReveal = []) => {
   const adjacentTiles = getAdjacentTiles(x, y, board);
 
   adjacentTiles.forEach(tile => {
-    if (tile && !tile.isVisible && tile.value === 0 && !tile.isMine) {
+    if (tile && !tile.isVisible && tile.value === 0 && !tile.isMine && !tile.isFlagged) {
       tilesToReveal.push(tile);
       tile.isVisible = true;
       revealEmpty(tile.x, tile.y, board, tilesToReveal)
     }
     // Check Empty's adjacent
-    if (tile && !tile.isVisible && !tile.isMine) {
+    if (tile && !tile.isVisible && !tile.isMine && !tile.isFlagged) {
       tile.isVisible = true;
       tilesToReveal.push(tile);
     }

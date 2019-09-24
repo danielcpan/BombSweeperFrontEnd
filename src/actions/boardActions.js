@@ -26,7 +26,9 @@ export const setUpBoard = (size, mineCount) => async dispatch => {
   dispatch({
     type: SET_UP_BOARD,
     payload: tileIds,
-    allIds
+    allIds,
+    nonMineTilesCount: size**2 - mineCount,
+    minesLeftCount: mineCount
   })
 }
 

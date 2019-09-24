@@ -10,7 +10,9 @@ const App = props => {
     score,
     isGameOver,
     updateGameStatus,
-    updateGameScore
+    updateGameScore,
+    nonMineTilesCount,
+    minesLeftCount
   } = props;
 
   const handleIsGameOver = () => {
@@ -28,6 +30,8 @@ const App = props => {
       {(isGameOver) && (
         <div>GAME OVER</div>
       )}
+      <div>Non Mine Tiles Left: {nonMineTilesCount}</div>
+      <div>Mines Left: {minesLeftCount}</div>
       <Board
         size={size}
         handleScore={handleScore}
@@ -44,6 +48,9 @@ const mapStateToProps = state => ({
   mineCount: state.game.mineCount,
   score: state.game.score,
   isGameOver: state.game.isGameOver,
+  nonMineTilesCount: state.board.nonMineTilesCount,
+  minesLeftCount: state.board.minesLeftCount,
+
 });
 
 const mapDispatchToProps = dispatch => ({

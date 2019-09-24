@@ -8,6 +8,8 @@ import {
 const initialState = {
   byId: {},
   allIds: [],
+  nonMineTilesCount: 0,
+  minesLeftCount: 0,
 };
 
   export default (state = initialState, action) => {
@@ -16,7 +18,9 @@ const initialState = {
         return { 
           ...state, 
           byId: action.payload,
-          allIds: action.allIds
+          allIds: action.allIds,
+          nonMineTilesCount: action.nonMineTilesCount,
+          minesLeftCount: action.minesLeftCount
         };
       case REVEAL_TILE:
         return { 
@@ -30,6 +34,7 @@ const initialState = {
         return { 
           ...state, 
           byId: { ...state.byId, ...tilesToRevealIds},
+          nonMineTilesCount: state.nonMineTilesCount - Object.keys(tilesToRevealIds).length
         };
       case TOGGLE_FLAG:
         return { 
@@ -38,9 +43,10 @@ const initialState = {
             ...state.byId, 
             [action.payload]: { 
               ...state.byId[action.payload], 
-              isFlagged: !state.byId[action.payload].isFlagged 
+              isFlagged: !state.byId[action.payload].isFlagged
             }
           },
+          minesLeftCount: state.byId[action.payload].isFlagged ? state.minesLeftCount + 1 : state.minesLeftCount - 1
         };
       default:
         return state;

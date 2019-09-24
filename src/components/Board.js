@@ -23,10 +23,10 @@ const Board = props => {
   }, [])
 
   const handleLeftClick = tile => {
-    if (isGameOver || (tile.isVisible && !tile.isFlagged)) return;
+    if (isGameOver || tile.isVisible || tile.isFlagged) return;
     revealTile(tile.id)
     if (tile.isMine) handleIsGameOver();
-    if (!tile.isVisible) handleScore();
+    if (!tile.isVisible && !tile.isMine) handleScore();
     // tile is empty
     if (tile.value === 0) revealEmptyTiles(tile, board);
   }

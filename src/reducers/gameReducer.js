@@ -5,9 +5,8 @@ import {
 } from '../constants/actionTypes';
 
 const initialState = {
-  rows: 16,
-  cols: 30,
-  // size: 20,
+  rows: 9,
+  cols: 9,
   mineCount: 10,
   score: 0,
   isGameOver: false,
@@ -16,9 +15,11 @@ const initialState = {
   export default (state = initialState, action) => {
     switch (action.type) {
       case UPDATE_GAME_SETTINGS:
+        console.log("here!")
+        console.log(action.payload)
         return { 
           ...state, 
-          ...action.payload.settings
+          ...action.payload
         };
       case UPDATE_GAME_SCORE:
         return { 

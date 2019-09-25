@@ -6,6 +6,7 @@ import * as GameActions from './actions/gameActions';
 import * as BoardActions from './actions/boardActions';
 import DefaultLayout from './components/DefaultLayout';
 import GameOverModal from './components/GameOverModal';
+import { BEGINNER, INTERMEDIATE, EXPERT } from './constants/gameTypes';
 
 const leaderboard = [
   { player: 'TestPlayer1', time: 0.5, date: '18 September 2019'},
@@ -25,6 +26,7 @@ const App = props => {
     isGameOver,
     updateGameStatus,
     updateGameScore,
+    updateGameSettings,
     nonMineTilesCount,
     minesLeftCount,
     setUpBoard
@@ -42,13 +44,18 @@ const App = props => {
 
   }
 
+  // const handleGameSettings = settings => {
+  //   updateGameSettings(settings)
+  // }
+
   const handlePlayAgain = () => {
     updateGameStatus({ isGameOver: false });
     setUpBoard(rows, cols, mineCount)
   }
 
   useEffect(() => {
-    setUpBoard(rows, cols, mineCount)
+    // updateGameSettings(INTERMEDIATE)
+    setUpBoard(rows, cols, mineCount);
   }, [])
 
   return (
@@ -56,9 +63,9 @@ const App = props => {
       <DefaultLayout>
         <Container>
           <Grid.Column style={{marginTop: 10}}>
-            <Button>Beginner</Button>
-            <Button primary>Intermediate</Button>
-            <Button secondary>Expert</Button>
+            <Button onClick={() => updateGameSettings(BEGINNER)}>Beginner</Button>
+            <Button primary onClick={() => updateGameSettings(INTERMEDIATE)}>Intermediate</Button>
+            <Button secondary onClick={() => updateGameSettings(EXPERT)}>Expert</Button>
           </Grid.Column>
           
           <Container textAlign='center' style={{ marginTop: 10}}>

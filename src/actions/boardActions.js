@@ -52,4 +52,5 @@ export const revealEmptyTiles = (tile, board) => async dispatch => {
 export const toggleFlag = tileId => ({
   type: TOGGLE_FLAG,
   payload: tileId,
+  
 })

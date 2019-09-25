@@ -109,15 +109,15 @@ const styles = ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '100vh'
+    // height: '100vh'
   },
   tile: {
     display: 'flex',
     backgroundColor: '#59606f',
     alignItems: 'center',
     borderRadius: 5,
-    height: 50,
-    width: 50,
+    height: 25,
+    width: 25,
     textAlign: 'center'
   },
   mineTile: {
@@ -130,6 +130,7 @@ const styles = ({
 
 const mapStateToProps = state => ({
   board: selectTiles(state),
+  nonMineTilesCount: state.board.nonMineTilesCount,
 });
 
 const mapDispatchToProps = dispatch => ({

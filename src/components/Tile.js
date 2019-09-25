@@ -51,8 +51,8 @@ const styles = ({
     backgroundColor: '#59606f',
     alignItems: 'center',
     borderRadius: 5,
-    height: 50,
-    width: 50,
+    height: 25,
+    width: 25,
     textAlign: 'center',
     userSelect: 'none'
   },

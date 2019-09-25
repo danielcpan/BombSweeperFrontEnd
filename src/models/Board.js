@@ -8,9 +8,9 @@ function Tile(x,y) {
   this.isVisible = false;
 }
 
-export const initBoard = (size, mineCount) => {
-  let board = new Array(size).fill(null)
-    .map((row, rowIdx) => new Array(size).fill(null)
+export const initBoard = (rows, cols, mineCount) => {
+  let board = new Array(rows).fill(null)
+    .map((row, rowIdx) => new Array(cols).fill(null)
       .map((el, colIdx) => new Tile(rowIdx, colIdx)));
   board = placeMines(board, mineCount);
   board = updateBoard(board);
@@ -20,12 +20,13 @@ export const initBoard = (size, mineCount) => {
 export const placeMines = (board, mineCount) => {
   const boardClone = board.map(row => row.map(tile => ({ ...tile})));
   const minimum = 0;
-  const maximum = board.length - 1;
+  const maximumX = board.length - 1;
+  const maximumY = board[0].length - 1;
   const mines = [];
 
   for (let i = 0; i < mineCount; i++) {
-    const x = Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
-    const y = Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
+    const x = Math.floor(Math.random() * (maximumX - minimum + 1)) + minimum;
+    const y = Math.floor(Math.random() * (maximumY - minimum + 1)) + minimum;
     mines.push([x, y]);
   }
   mines.forEach(mine => boardClone[mine[0]][mine[1]].isMine = true);
@@ -36,7 +37,7 @@ export const placeMines = (board, mineCount) => {
 export const updateBoard = (board) => {
   const boardClone = board.map(row => row.map(tile => ({ ...tile})));
   for (let x = 0; x < boardClone.length; x++) {
-    for (let y = 0; y < boardClone.length; y++) {
+    for (let y = 0; y < boardClone[0].length; y++) {
       if (!boardClone[x][y].isMine) {
         boardClone[x][y].value = getAdjacentTiles(x, y, boardClone).filter(tile => tile && tile.isMine).length
       }
@@ -60,7 +61,7 @@ export const getAdjacentTiles = (x, y, board) => {
 }
 
 export const isWithinBoard = (x, y, board) => {
-  return ((x > -1) && (x < board.length) && (y > -1) && (y < board.length));
+  return ((x > -1) && (x < board.length) && (y > -1) && (y < board[0].length));
 }
 
 export const revealEmpty = (x, y, board, tilesToReveal = []) => {

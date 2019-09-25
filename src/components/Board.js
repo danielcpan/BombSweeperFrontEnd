@@ -7,7 +7,8 @@ import Tile from './Tile';
 const Board = props => {
   const { 
     board, 
-    size, 
+    rows,
+    cols,
     mineCount, 
     isGameOver, 
     handleIsGameOver, 
@@ -19,7 +20,7 @@ const Board = props => {
   } = props;
 
   useEffect(() => {
-    setUpBoard(size, mineCount)
+    setUpBoard(rows, cols, mineCount)
   }, [])
 
   const handleLeftClick = tile => {
@@ -134,7 +135,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setUpBoard: (size, mineCount) => dispatch(BoardActions.setUpBoard(size, mineCount)),
+  setUpBoard: (rows, cols, mineCount) => dispatch(BoardActions.setUpBoard(rows, cols, mineCount)),
   revealTile: (tileId) => dispatch(BoardActions.revealTile(tileId)),
   revealEmptyTiles: (tile, board) => dispatch(BoardActions.revealEmptyTiles(tile, board)),
   toggleFlag: tileId => dispatch(BoardActions.toggleFlag(tileId)),

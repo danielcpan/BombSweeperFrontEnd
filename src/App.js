@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Button, Container, Divider, Grid, Header, Image, Menu, Segment } from 'semantic-ui-react'
 import Board from './components/Board';
 import * as GameActions from './actions/gameActions';
+import * as BoardActions from './actions/boardActions';
 import DefaultLayout from './components/DefaultLayout';
+import GameOverModal from './components/GameOverModal';
 
 const leaderboard = [
   { player: 'TestPlayer1', time: 0.5, date: '18 September 2019'},
@@ -16,14 +18,16 @@ const leaderboard = [
 
 const App = props => {
   const {
-    size,
+    rows,
+    cols,
     mineCount,
     score,
     isGameOver,
     updateGameStatus,
     updateGameScore,
     nonMineTilesCount,
-    minesLeftCount
+    minesLeftCount,
+    setUpBoard
   } = props;
 
   const handleIsGameOver = () => {
@@ -33,6 +37,19 @@ const App = props => {
   const handleScore = () => {
     updateGameScore(score + 1);
   }
+
+  const handleSubmitScore = () => {
+
+  }
+
+  const handlePlayAgain = () => {
+    updateGameStatus({ isGameOver: false });
+    setUpBoard(rows, cols, mineCount)
+  }
+
+  useEffect(() => {
+    setUpBoard(rows, cols, mineCount)
+  }, [])
 
   return (
     <div className="App">
@@ -48,10 +65,10 @@ const App = props => {
             <Grid relaxed>
               <Grid.Row>
                 <Grid.Column width={4}>
-                  <div>Mines Left: </div>
+                  <div>Mines Left: {minesLeftCount}</div>
                 </Grid.Column>
                 <Grid.Column width={8}>
-                  <div>Score: </div>
+                  <div>Score: {score}</div>
                 </Grid.Column>
                 <Grid.Column width={4}>
                   <div>Time: </div>
@@ -59,16 +76,20 @@ const App = props => {
               </Grid.Row>
             </Grid>
             <Board
-              size={size}
+              rows={rows}
+              cols={cols}
               handleScore={handleScore}
               mineCount={mineCount}
               isGameOver={isGameOver}
               handleIsGameOver={handleIsGameOver}
             />
           </Container>
-          
         </Container>
       </DefaultLayout>
+      <GameOverModal 
+      isGameOver={isGameOver} 
+      handlePlayAgain={handlePlayAgain}
+      />
     </div>
   );
 }
@@ -91,16 +112,17 @@ const styles = ({
 })
 
 const mapStateToProps = state => ({
-  size: state.game.size,
+  rows: state.game.rows,
+  cols: state.game.cols,
   mineCount: state.game.mineCount,
   score: state.game.score,
   isGameOver: state.game.isGameOver,
   nonMineTilesCount: state.board.nonMineTilesCount,
   minesLeftCount: state.board.minesLeftCount,
-
 });
 
 const mapDispatchToProps = dispatch => ({
+  setUpBoard: (rows, cols, mineCount) => dispatch(BoardActions.setUpBoard(rows, cols, mineCount)),
   updateGameSettings: settings => dispatch(GameActions.updateGameSettings(settings)),
   updateGameScore: score => dispatch(GameActions.updateGameScore(score)),
   updateGameStatus: status => dispatch(GameActions.updateGameStatus(status))

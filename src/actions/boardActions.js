@@ -9,14 +9,14 @@ import { selectTiles } from '../reducers/boardReducer';
 
 import { initBoard, getAdjacentTiles, revealEmpty } from '../models/Board';
 
-export const setUpBoard = (size, mineCount) => async dispatch => {
-  const board = initBoard(size, mineCount);
+export const setUpBoard = (rows, cols, mineCount) => async dispatch => {
+  const board = initBoard(rows, cols, mineCount);
   const tileIds = {};
-  const allIds = new Array(size).fill(null).map(el => []);
+  const allIds = new Array(rows).fill(null).map(el => []);
 
   // NORMALIZE DATA
-  for (let x = 0; x < size; x++) {
-    for (let y = 0; y < size; y++) {
+  for (let x = 0; x < rows; x++) {
+    for (let y = 0; y < cols; y++) {
       const currentTile = board[x][y];
       tileIds[currentTile.id] = currentTile;
       allIds[x].push(currentTile.id)
@@ -27,7 +27,7 @@ export const setUpBoard = (size, mineCount) => async dispatch => {
     type: SET_UP_BOARD,
     payload: tileIds,
     allIds,
-    nonMineTilesCount: size**2 - mineCount,
+    nonMineTilesCount: (rows * cols) - mineCount,
     minesLeftCount: mineCount
   })
 }

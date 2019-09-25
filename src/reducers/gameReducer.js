@@ -5,7 +5,9 @@ import {
 } from '../constants/actionTypes';
 
 const initialState = {
-  size: 20,
+  rows: 16,
+  cols: 30,
+  // size: 20,
   mineCount: 10,
   score: 0,
   isGameOver: false,

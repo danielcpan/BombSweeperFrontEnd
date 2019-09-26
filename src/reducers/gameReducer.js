@@ -19,7 +19,10 @@ const initialState = {
         console.log(action.payload)
         return { 
           ...state, 
-          ...action.payload
+          rows: action.payload.rows,
+          cols: action.payload.cols,
+          mineCount: action.payload.mineCount,
+          // ...action.payload
         };
       case UPDATE_GAME_SCORE:
         return { 

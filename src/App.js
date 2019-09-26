@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { Button, Container, Divider, Grid, Header, Image, Menu, Segment } from 'semantic-ui-react'
 import Board from './components/Board';
@@ -6,6 +6,7 @@ import * as GameActions from './actions/gameActions';
 import * as BoardActions from './actions/boardActions';
 import DefaultLayout from './components/DefaultLayout';
 import GameOverModal from './components/GameOverModal';
+import Timer from './components/Timer';
 import { BEGINNER, INTERMEDIATE, EXPERT } from './constants/gameTypes';
 
 const leaderboard = [
@@ -32,6 +33,17 @@ const App = props => {
     setUpBoard
   } = props;
 
+  const [time, setTime] = useState(0);
+  const savedTimerCallback = useRef();
+
+  useEffect(() => {
+    savedTimerCallback.current = callback;
+  })
+
+  const callback = () => {
+    setTime(time + 1);
+  }  
+
   const handleIsGameOver = () => {
     updateGameStatus({ isGameOver: true });
   }
@@ -50,12 +62,23 @@ const App = props => {
 
   const handlePlayAgain = () => {
     updateGameStatus({ isGameOver: false });
-    setUpBoard(rows, cols, mineCount)
+    updateGameSettings(INTERMEDIATE)
+    setUpBoard(rows, cols, mineCount);
+    setTime(0);
   }
 
+  // const test = async () => {
+  //   // await updateGameSettings(INTERMEDIATE)
+  //   // console.log("rows: " + rows + " cols: " + cols)
+  //   await setUpBoard(rows, cols, mineCount);
+  // }
+
   useEffect(() => {
-    // updateGameSettings(INTERMEDIATE)
-    setUpBoard(rows, cols, mineCount);
+    async function test() {
+      await updateGameSettings(INTERMEDIATE);
+      setUpBoard(rows, cols, mineCount);
+    }
+    test();
   }, [])
 
   return (
@@ -78,7 +101,10 @@ const App = props => {
                   <div>Score: {score}</div>
                 </Grid.Column>
                 <Grid.Column width={4}>
-                  <div>Time: </div>
+                  <Timer 
+                    time={time} 
+                    savedTimerCallback={savedTimerCallback}
+                  />
                 </Grid.Column>
               </Grid.Row>
             </Grid>
@@ -123,6 +149,7 @@ const mapStateToProps = state => ({
   cols: state.game.cols,
   mineCount: state.game.mineCount,
   score: state.game.score,
+  // time: state.game.time,
   isGameOver: state.game.isGameOver,
   nonMineTilesCount: state.board.nonMineTilesCount,
   minesLeftCount: state.board.minesLeftCount,

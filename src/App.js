@@ -27,13 +27,14 @@ const App = props => {
     isGameOver,
     updateGameStatus,
     updateGameScore,
-    updateGameSettings,
+    setGameDifficulty,
     nonMineTilesCount,
     minesLeftCount,
     setUpBoard
   } = props;
 
   const [time, setTime] = useState(0);
+  const [difficulty, setDifficulty] = useState(BEGINNER);
   const savedTimerCallback = useRef();
 
   useEffect(() => {
@@ -56,39 +57,44 @@ const App = props => {
 
   }
 
-  // const handleGameSettings = settings => {
-  //   updateGameSettings(settings)
-  // }
+  const handleGameDifficultyChange = difficulty => {
+    setDifficulty(difficulty);
+    setTime(0);
+    updateGameScore(0);
+  }
 
   const handlePlayAgain = () => {
     updateGameStatus({ isGameOver: false });
-    updateGameSettings(INTERMEDIATE)
     setUpBoard(rows, cols, mineCount);
     setTime(0);
+    updateGameScore(0);
   }
 
-  // const test = async () => {
-  //   // await updateGameSettings(INTERMEDIATE)
-  //   // console.log("rows: " + rows + " cols: " + cols)
-  //   await setUpBoard(rows, cols, mineCount);
-  // }
-
   useEffect(() => {
-    async function test() {
-      await updateGameSettings(INTERMEDIATE);
-      setUpBoard(rows, cols, mineCount);
-    }
-    test();
-  }, [])
+    setGameDifficulty(difficulty)
+    setUpBoard(rows, cols, mineCount);
+  }, [rows, cols, mineCount, difficulty])
 
   return (
     <div className="App">
       <DefaultLayout>
         <Container>
           <Grid.Column style={{marginTop: 10}}>
-            <Button onClick={() => updateGameSettings(BEGINNER)}>Beginner</Button>
-            <Button primary onClick={() => updateGameSettings(INTERMEDIATE)}>Intermediate</Button>
-            <Button secondary onClick={() => updateGameSettings(EXPERT)}>Expert</Button>
+            <Button 
+              active={difficulty === BEGINNER} 
+              onClick={() => handleGameDifficultyChange(BEGINNER)}
+              content='Beginner'
+            />
+            <Button 
+              active={difficulty === INTERMEDIATE} 
+              onClick={() => handleGameDifficultyChange(INTERMEDIATE)}
+              content='Intermediate'
+            />
+            <Button 
+              active={difficulty === EXPERT} 
+              onClick={ () => handleGameDifficultyChange(EXPERT)}
+              content='Expert'
+            />
           </Grid.Column>
           
           <Container textAlign='center' style={{ marginTop: 10}}>
@@ -104,6 +110,7 @@ const App = props => {
                   <Timer 
                     time={time} 
                     savedTimerCallback={savedTimerCallback}
+                    isGameOver={isGameOver}
                   />
                 </Grid.Column>
               </Grid.Row>
@@ -120,6 +127,7 @@ const App = props => {
         </Container>
       </DefaultLayout>
       <GameOverModal 
+      score={score}
       isGameOver={isGameOver} 
       handlePlayAgain={handlePlayAgain}
       />
@@ -149,7 +157,6 @@ const mapStateToProps = state => ({
   cols: state.game.cols,
   mineCount: state.game.mineCount,
   score: state.game.score,
-  // time: state.game.time,
   isGameOver: state.game.isGameOver,
   nonMineTilesCount: state.board.nonMineTilesCount,
   minesLeftCount: state.board.minesLeftCount,
@@ -157,7 +164,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   setUpBoard: (rows, cols, mineCount) => dispatch(BoardActions.setUpBoard(rows, cols, mineCount)),
-  updateGameSettings: settings => dispatch(GameActions.updateGameSettings(settings)),
+  setGameDifficulty: settings => dispatch(GameActions.setGameDifficulty(settings)),
   updateGameScore: score => dispatch(GameActions.updateGameScore(score)),
   updateGameStatus: status => dispatch(GameActions.updateGameStatus(status))
 });

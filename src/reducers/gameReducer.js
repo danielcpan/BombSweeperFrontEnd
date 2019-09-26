@@ -1,28 +1,25 @@
 import {
-  UPDATE_GAME_SETTINGS,
+  SET_GAME_DIFFICULTY,
   UPDATE_GAME_SCORE,
   UPDATE_GAME_STATUS,
 } from '../constants/actionTypes';
 
 const initialState = {
-  rows: 9,
-  cols: 9,
-  mineCount: 10,
+  rows: 0,
+  cols: 0,
+  mineCount: 0,
   score: 0,
   isGameOver: false,
 };
 
   export default (state = initialState, action) => {
     switch (action.type) {
-      case UPDATE_GAME_SETTINGS:
-        console.log("here!")
-        console.log(action.payload)
+      case SET_GAME_DIFFICULTY:
         return { 
           ...state, 
-          rows: action.payload.rows,
-          cols: action.payload.cols,
-          mineCount: action.payload.mineCount,
-          // ...action.payload
+          ...action.payload,
+          score: 0,
+          isGameOver: false
         };
       case UPDATE_GAME_SCORE:
         return { 

@@ -9,6 +9,8 @@ function Tile(x,y) {
 }
 
 export const initBoard = (rows, cols, mineCount) => {
+  if (rows === 0 || cols === 0) return;
+  
   let board = new Array(rows).fill(null)
     .map((row, rowIdx) => new Array(cols).fill(null)
       .map((el, colIdx) => new Tile(rowIdx, colIdx)));

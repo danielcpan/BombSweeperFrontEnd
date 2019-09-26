@@ -1,11 +1,11 @@
 import {
-  UPDATE_GAME_SETTINGS,
+  SET_GAME_DIFFICULTY,
   UPDATE_GAME_SCORE,
   UPDATE_GAME_STATUS
 } from '../constants/actionTypes';
 
-export const updateGameSettings = settings => ({
-  type: UPDATE_GAME_SETTINGS,
+export const setGameDifficulty = settings => ({
+  type: SET_GAME_DIFFICULTY,
   payload: settings
 })
 

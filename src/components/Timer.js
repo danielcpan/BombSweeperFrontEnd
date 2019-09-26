@@ -1,14 +1,16 @@
 import React, { useEffect } from 'react';
 
 const Timer = props => {
-  const { time, savedTimerCallback } = props;
+  const { time, savedTimerCallback, isGameOver } = props;
 
   useEffect(() => {
-    const tick = () => savedTimerCallback.current();
+    if (!isGameOver) {
+      const tick = () => savedTimerCallback.current();
 
-    const id = setInterval(tick, 1000);
-    return () => clearInterval(id);
-  }, [])
+      const id = setInterval(tick, 1000);
+      return () => clearInterval(id);
+    }
+  }, [time, isGameOver])
 
   return (
     <div>

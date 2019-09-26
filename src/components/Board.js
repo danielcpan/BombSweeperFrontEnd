@@ -7,29 +7,25 @@ import Tile from './Tile';
 const Board = props => {
   const { 
     board, 
-    rows,
-    cols,
-    mineCount, 
     isGameOver, 
     handleIsGameOver, 
     handleScore, 
-    setUpBoard,
     revealTile,
     revealEmptyTiles,
     toggleFlag
   } = props;
 
-  useEffect(() => {
-    setUpBoard(rows, cols, mineCount)
-  }, [])
-
   const handleLeftClick = tile => {
     if (isGameOver || tile.isVisible || tile.isFlagged) return;
-    revealTile(tile.id)
+    // revealTile(tile.id)
     if (tile.isMine) handleIsGameOver();
     if (!tile.isVisible && !tile.isMine) handleScore();
     // tile is empty
-    if (tile.value === 0) revealEmptyTiles(tile, board);
+    if (tile.value === 0) {
+      revealEmptyTiles(tile, board);
+    } else {
+      revealTile(tile.id)
+    }
   }
 
   const handleRightClick = (e, tile) => {
@@ -75,58 +71,12 @@ const Row = props => {
   )
 }
 
-// const Tile = props => {
-//   const { tile, handleLeftClick, handleRightClick } = props;
-  
-//   return (
-//     <td onClick={() => handleLeftClick(tile)} onContextMenu={(e) => handleRightClick(e, tile)}>
-//       {tile.isVisible ? (
-//         (tile.isMine) ? (
-//           <div style={{ ...styles.tile, ...styles.mineTile }}>
-//             <div style={{ flex: 1 }}>
-//               {(tile.isMine) ? 'mine' : tile.value}
-//             </div>
-//           </div>
-//         ) : (
-//             <div style={{ ...styles.tile, ...styles.revealedTile }}>
-//               <div style={{ flex: 1 }}>
-//                 {(tile.value === 0) ? '' : tile.value}
-//               </div>
-//             </div>
-//           )
-//       ) : (
-//           <div style={{ ...styles.tile }}>
-//             <div style={{ flex: 1 }}>
-//               {/* {(tile.isMine) ? 'mine' : tile.value} */}
-//             </div>
-//           </div>
-//         )}
-//     </td>
-//   )
-// }
-
 const styles = ({
   board: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    // height: '100vh'
   },
-  tile: {
-    display: 'flex',
-    backgroundColor: '#59606f',
-    alignItems: 'center',
-    borderRadius: 5,
-    height: 25,
-    width: 25,
-    textAlign: 'center'
-  },
-  mineTile: {
-    backgroundColor: 'red',
-  },
-  revealedTile: {
-    backgroundColor: '#b8c0d2'
-  }
 })
 
 const mapStateToProps = state => ({
@@ -135,7 +85,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setUpBoard: (rows, cols, mineCount) => dispatch(BoardActions.setUpBoard(rows, cols, mineCount)),
   revealTile: (tileId) => dispatch(BoardActions.revealTile(tileId)),
   revealEmptyTiles: (tile, board) => dispatch(BoardActions.revealEmptyTiles(tile, board)),
   toggleFlag: tileId => dispatch(BoardActions.toggleFlag(tileId)),

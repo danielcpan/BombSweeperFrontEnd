@@ -28,6 +28,7 @@ const initialState = {
           byId: { 
             ...state.byId, 
             [action.payload]: { ...state.byId[action.payload], isVisible: true }},
+          nonMineTilesCount: state.byId[action.payload].isMine ? state.nonMineTilesCount : state.nonMineTilesCount - 1,
         };
       case REVEAL_EMPTY_TILES:
         const tilesToRevealIds = action.payload;

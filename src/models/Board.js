@@ -9,8 +9,6 @@ function Tile(x,y) {
 }
 
 export const initBoard = (rows, cols, mineCount) => {
-  if (rows === 0 || cols === 0) return;
-  
   let board = new Array(rows).fill(null)
     .map((row, rowIdx) => new Array(cols).fill(null)
       .map((el, colIdx) => new Tile(rowIdx, colIdx)));
@@ -23,15 +21,20 @@ export const placeMines = (board, mineCount) => {
   const boardClone = board.map(row => row.map(tile => ({ ...tile})));
   const minimum = 0;
   const maximumX = board.length - 1;
-  const maximumY = board[0].length - 1;
-  const mines = [];
+  const maximumY = board[0] ? board[0].length - 1 : 0;
+  const mines = {};
 
   for (let i = 0; i < mineCount; i++) {
     const x = Math.floor(Math.random() * (maximumX - minimum + 1)) + minimum;
     const y = Math.floor(Math.random() * (maximumY - minimum + 1)) + minimum;
-    mines.push([x, y]);
+    const id = `${x}-${y}`;
+    !mines[id] ? mines[id] = { x, y } : i--;
   }
-  mines.forEach(mine => boardClone[mine[0]][mine[1]].isMine = true);
+  Object.keys(mines).forEach(key => {
+    const x = mines[key].x;
+    const y = mines[key].y;
+    boardClone[x][y].isMine = true;
+  })
 
   return boardClone;
 }

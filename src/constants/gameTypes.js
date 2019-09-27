@@ -2,7 +2,7 @@
 export const BEGINNER = { 
   rows: 9,
   cols: 9,
-  mineCount: 10,
+  mineCount: 80,
 };
 export const INTERMEDIATE = {
   rows: 16,

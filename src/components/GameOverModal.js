@@ -11,7 +11,7 @@ const GameOverModal = props => {
         <Modal.Content>
         {/* <div style={{ textAlign: 'center'}}>Your Score: 123</div> */}
           <div>Your Score: {score}</div>
-          <div>Your High Score: 112</div>
+          <div>Your High Score: N/A</div>
           {/* <input>Hello</input> */}
           <div>
             <span>Your Name:</span>

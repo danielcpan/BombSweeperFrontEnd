@@ -14,6 +14,12 @@ const initialState = {
 
   export default (state = initialState, action) => {
     switch (action.type) {
+      case 'UPDATE_BOARD':
+        return {
+          ...state,
+          byId: action.payload,
+          allIds: action.allIds,          
+        }
       case SET_UP_BOARD:
         return { 
           ...state, 

@@ -12,13 +12,35 @@ const Board = props => {
     handleScore, 
     revealTile,
     revealEmptyTiles,
-    toggleFlag
+    toggleFlag,
+    placeMinesTest,
+    updateBoardTest,
+    moveMine
   } = props;
 
+  const [isFirstClick, setIsFirstClick] = React.useState(true);
+
   const handleLeftClick = tile => {
+    // if (!isFirstClick) {
+    //   console.log("here!")
+    //   placeMinesTest(board, 10);
+    //   // updateBoardTest(board)
+    //   revealTile(tile.id);
+    //   setIsFirstClick(true);
+    //   return;
+    // };
     if (isGameOver || tile.isVisible || tile.isFlagged) return;
     // revealTile(tile.id)
-    if (tile.isMine) handleIsGameOver();
+    if (tile.isMine) {
+      if (isFirstClick) {
+        moveMine(board, tile);
+        setIsFirstClick(false);
+        console.log("first Click!")
+      } else {
+        handleIsGameOver()
+        setIsFirstClick(true);
+      }
+    };
     if (!tile.isVisible && !tile.isMine) handleScore();
     // tile is empty
     if (tile.value === 0) {
@@ -88,6 +110,9 @@ const mapDispatchToProps = dispatch => ({
   revealTile: (tileId) => dispatch(BoardActions.revealTile(tileId)),
   revealEmptyTiles: (tile, board) => dispatch(BoardActions.revealEmptyTiles(tile, board)),
   toggleFlag: tileId => dispatch(BoardActions.toggleFlag(tileId)),
+  placeMinesTest: (board, mineCount) => dispatch(BoardActions.placeMinesTest(board, mineCount)),
+  updateBoardTest: board => dispatch(BoardActions.updateBoardTest(board)),
+  moveMine: (board, tile) => dispatch(BoardActions.moveMine(board,tile)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Board);

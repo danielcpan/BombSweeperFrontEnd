@@ -7,8 +7,6 @@ const Tile = props => {
     if (tile.isFlagged) return '🚩';
     if (!tile.isVisible) return '';
     if (tile.isMine) return '💣';
-    // if (tile.isFlagged) return '🚩';
-
     if (tile.value === 0) return '';
     return tile.value;
   }
@@ -21,8 +19,8 @@ const Tile = props => {
   }
 
   const getMineFlagTextStyles = tile => {
-    if (tile.isMine) return { paddingLeft: 4};
-    if (tile.isFlagged) return { paddingLeft: 7};
+    if (tile.isMine) return { paddingLeft: 3};
+    if (tile.isFlagged) return { paddingLeft: 5};
   }
   
   return (

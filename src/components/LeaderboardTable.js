@@ -26,6 +26,9 @@ const LeaderboardTable = props => {
 
   return (
     <Container style={{marginTop: 25}}>
+      <div>
+        <h1>Top 100 Scores for Beginner</h1>
+      </div>
       <Table unstackable>
         <Table.Header>
           <Table.Row>

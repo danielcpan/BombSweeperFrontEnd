@@ -24,10 +24,10 @@ export const fetchRecipesFailure = err => ({
   payload: err,
 })
 
-export const fetchLeaderboard = () => async dispatch => {
+export const fetchLeaderboard = params => async dispatch => {
   try {
     dispatch(fetchRecipesRequest());
-    const response = await axios.get(`${API_URL}/api/leaderboard`);
+    const response = await axios.get(`${API_URL}/api/leaderboard`, { params });
 
     dispatch(fetchRecipesSuccess(response.data));
   } catch (err) {

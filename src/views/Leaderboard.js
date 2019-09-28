@@ -6,9 +6,9 @@ import LeaderboardTable from '../components/LeaderboardTable';
 
 const Leaderboard = props => {
   const { leaderboard ,fetchLeaderboard } = props;
-
+  
   useEffect(() => {
-    fetchLeaderboard()
+    fetchLeaderboard({ difficulty: 'Beginner' })
   }, [fetchLeaderboard])
 
   console.log(leaderboard)
@@ -25,7 +25,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchLeaderboard: () => dispatch(LeaderboardActions.fetchLeaderboard())
+  fetchLeaderboard: (params) => dispatch(LeaderboardActions.fetchLeaderboard(params))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Leaderboard)

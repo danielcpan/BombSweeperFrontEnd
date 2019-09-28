@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { Button, Container, Divider, Grid, Header, Image, Menu, Segment } from 'semantic-ui-react'
-import Board from './components/Board';
-import * as GameActions from './actions/gameActions';
-import * as BoardActions from './actions/boardActions';
-import DefaultLayout from './components/DefaultLayout';
-import GameOverModal from './components/GameOverModal';
-import Timer from './components/Timer';
-import { BEGINNER, INTERMEDIATE, EXPERT } from './constants/gameTypes';
+import Board from '../components/Board';
+import * as GameActions from '../actions/gameActions';
+import * as BoardActions from '../actions/boardActions';
+import DefaultLayout from '../components/DefaultLayout';
+import GameOverModal from '../components/GameOverModal';
+import Timer from '../components/Timer';
+import { BEGINNER, INTERMEDIATE, EXPERT } from '../constants/gameTypes';
 
 const leaderboard = [
   { player: 'TestPlayer1', time: 0.5, date: '18 September 2019'},
@@ -91,7 +91,7 @@ const App = props => {
 
   return (
     <div className="App">
-      <DefaultLayout>
+      {/* <DefaultLayout> */}
         <Container>
           <Grid.Column style={{marginTop: 10}}>
             <Button 
@@ -140,7 +140,7 @@ const App = props => {
             />
           </Container>
         </Container>
-      </DefaultLayout>
+      {/* </DefaultLayout> */}
       <GameOverModal 
         score={score}
         isModalOpen={isModalOpen}

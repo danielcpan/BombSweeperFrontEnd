@@ -49,10 +49,6 @@ export const moveMine = (board, tile) => dispatch => {
   const nonMineTile = getFirstNonMineTile(boardClone, tile);
   nonMineTile.isMine = true;
   const [x, y] = tile.id.split('-');
-  // const x = tile.id[0]
-  // const y = tile.id[tile.id.length-1]
-  // console.log("x: " + x)
-  // console.log("y: " + y)
   boardClone[x][y].isMine = false;
   boardClone = updateBoardWithAdjacents(boardClone);
 

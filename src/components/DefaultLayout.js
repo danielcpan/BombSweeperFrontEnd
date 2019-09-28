@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import {
   Container,
   Icon,
@@ -12,7 +14,7 @@ import {
 
 const DesktopContainer = props => {
   const [fixed, setFixed] = useState(false);
-  const { children } = props;
+  const { location, children } = props;
 
   return (
     <Responsive 
@@ -35,10 +37,22 @@ const DesktopContainer = props => {
             secondary={!fixed}
           >
             <Container>
-              <Menu.Item><h1>Bomb Sweeper</h1></Menu.Item>
+              <Menu.Item>
+                <Link to="/">
+                  <h1>Bomb Sweeper</h1>
+                </Link>
+              </Menu.Item>
               <Menu.Item position='right'>
-                <Menu.Item as='a' active>Play</Menu.Item>
-                <Menu.Item as='a'>Leaderboard</Menu.Item>
+                <Menu.Item active={'/' === location.pathname}>
+                  <Link to="/">
+                    Play
+                  </Link>
+                </Menu.Item>
+                <Menu.Item active={'/leaderboard' === location.pathname}>
+                  <Link to="/leaderboard">
+                    Leaderboard
+                  </Link>
+                </Menu.Item>
               </Menu.Item>                
             </Container>
           </Menu>
@@ -99,15 +113,19 @@ MobileContainer.propTypes = {
   children: PropTypes.node,
 }
 
-const DefaultLayout = ({ children }) => (
-  <div>
-    <DesktopContainer>{children}</DesktopContainer>
-    {/* <MobileContainer>{children}</MobileContainer> */}
-  </div>
-)
+const DefaultLayout = props => {
+  const { location, children } = props;
+
+  return (
+    <div>
+      <DesktopContainer location={location}>{children}</DesktopContainer>
+      {/* <MobileContainer>{children}</MobileContainer> */}
+    </div>
+  )
+}
 
 DefaultLayout.propTypes = {
   children: PropTypes.node,
 }
 
-export default DefaultLayout
+export default withRouter(DefaultLayout)

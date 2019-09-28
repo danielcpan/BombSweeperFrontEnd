@@ -70,9 +70,11 @@ const App = props => {
   }
 
   const handleGameDifficultyChange = difficulty => {
+    updateGameStatus({ isGameOver: false, isWon: false });
+    // setUpBoard(rows, cols, mineCount);
     setDifficulty(difficulty);
-    setTime(0);
     updateGameScore(0);
+    setTime(0);
   }
 
   const handlePlayAgain = () => {
@@ -120,11 +122,11 @@ const App = props => {
                   <div>Score: {score}</div>
                 </Grid.Column>
                 <Grid.Column width={4}>
-                  <Timer 
+                  {/* <Timer 
                     time={time} 
                     savedTimerCallback={savedTimerCallback}
                     isGameOver={isGameOver}
-                  />
+                  /> */}
                 </Grid.Column>
               </Grid.Row>
             </Grid>

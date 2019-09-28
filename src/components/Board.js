@@ -20,13 +20,14 @@ const Board = props => {
 
   const [isFirstClick, setIsFirstClick] = useState(true);
 
-  // console.log("isFirstClick: " + isFirstClick);
+  console.log("isFirstClick: " + isFirstClick);
 
   const handleLeftClick = tile => {
     if (isGameOver || tile.isVisible || tile.isFlagged) return;
 
     if (tile.isMine) {
       if (isFirstClick) {
+        console.log("MOVING MINE")
         moveMine(board, tile);
       } else {
         revealTile(tile.id)

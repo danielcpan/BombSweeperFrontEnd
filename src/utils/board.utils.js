@@ -69,11 +69,13 @@ export const getAdjacentEmptyTiles = (x, y, board, tilesToReveal = {}) => {
   return tilesToReveal
 }
 
-export const getFirstNonMineTile = board => {
+export const getFirstNonMineTile = (board, tile) => {
+  console.log(tile)
   for (let x = 0; x < board.length; x++) {
     for (let y = 0; y < board[0].length; y++) {
       const currentTile = board[x][y]
-      if (!currentTile.isMine) {
+      if (!currentTile.isMine && currentTile.id !== tile.id) {
+        console.log(currentTile)
         return currentTile
       }
     }

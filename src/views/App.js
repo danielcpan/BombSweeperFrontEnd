@@ -1,22 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
-import { Button, Container, Divider, Grid, Header, Image, Menu, Segment } from 'semantic-ui-react'
+import { Button, Container, Grid } from 'semantic-ui-react'
 import Board from '../components/Board';
 import * as GameActions from '../actions/gameActions';
 import * as BoardActions from '../actions/boardActions';
-import DefaultLayout from '../components/DefaultLayout';
 import GameOverModal from '../components/GameOverModal';
 import Timer from '../components/Timer';
 import { BEGINNER, INTERMEDIATE, EXPERT } from '../constants/gameTypes';
-
-const leaderboard = [
-  { player: 'TestPlayer1', time: 0.5, date: '18 September 2019'},
-  { player: 'TestPlayer2', time: 0.75, date: '18 September 2018'},
-  { player: 'TestPlayer3', time: 0.95, date: '18 September 2019'},
-  { player: 'TestPlayer4', time: 1.05, date: '18 September 2019'},
-  { player: 'TestPlayer5', time: 1.15, date: '18 September 2019'},
-  { player: 'TestPlayer6', time: 1.19, date: '18 September 2019'},
-]
 
 const App = props => {
   const {
@@ -29,7 +19,6 @@ const App = props => {
     updateGameStatus,
     updateGameScore,
     setGameDifficulty,
-    nonMineTilesCount,
     minesLeftCount,
     setUpBoard
   } = props;
@@ -40,12 +29,11 @@ const App = props => {
   const savedTimerCallback = useRef();
 
   useEffect(() => {
+    const callback = () => {
+      setTime(time + 1);
+    } 
     savedTimerCallback.current = callback;
-  })
-
-  const callback = () => {
-    setTime(time + 1);
-  }  
+  }, [time])
 
   // const handleIsGameOver = () => {
   //   updateGameStatus({ isGameOver: true });
@@ -87,60 +75,58 @@ const App = props => {
   useEffect(() => {
     setGameDifficulty(difficulty)
     setUpBoard(rows, cols, mineCount);
-  }, [rows, cols, mineCount, difficulty])
+  }, [rows, cols, mineCount, difficulty, setGameDifficulty, setUpBoard])
 
   return (
     <div className="App">
-      {/* <DefaultLayout> */}
-        <Container>
-          <Grid.Column style={{marginTop: 10}}>
-            <Button 
-              active={difficulty === BEGINNER} 
-              onClick={() => handleGameDifficultyChange(BEGINNER)}
-              content='Beginner'
-            />
-            <Button 
-              active={difficulty === INTERMEDIATE} 
-              onClick={() => handleGameDifficultyChange(INTERMEDIATE)}
-              content='Intermediate'
-            />
-            <Button 
-              active={difficulty === EXPERT} 
-              onClick={ () => handleGameDifficultyChange(EXPERT)}
-              content='Expert'
-            />
-          </Grid.Column>
-          
-          <Container textAlign='center' style={{ marginTop: 10}}>
-            <Grid relaxed>
-              <Grid.Row>
-                <Grid.Column width={4}>
-                  <div>Mines Left: {minesLeftCount}</div>
-                </Grid.Column>
-                <Grid.Column width={8}>
-                  <div>Score: {score}</div>
-                </Grid.Column>
-                <Grid.Column width={4}>
-                  <Timer 
-                    time={time} 
-                    savedTimerCallback={savedTimerCallback}
-                    isGameOver={isGameOver}
-                  />
-                </Grid.Column>
-              </Grid.Row>
-            </Grid>
-            <Board
-              rows={rows}
-              cols={cols}
-              handleScore={handleScore}
-              mineCount={mineCount}
-              isGameOver={isGameOver}
-              handleLose={handleLose}
-              handleWin={handleWin}
-            />
-          </Container>
+      <Container>
+        <Grid.Column style={{marginTop: 10}}>
+          <Button 
+            active={difficulty === BEGINNER} 
+            onClick={() => handleGameDifficultyChange(BEGINNER)}
+            content='Beginner'
+          />
+          <Button 
+            active={difficulty === INTERMEDIATE} 
+            onClick={() => handleGameDifficultyChange(INTERMEDIATE)}
+            content='Intermediate'
+          />
+          <Button 
+            active={difficulty === EXPERT} 
+            onClick={ () => handleGameDifficultyChange(EXPERT)}
+            content='Expert'
+          />
+        </Grid.Column>
+        
+        <Container textAlign='center' style={{ marginTop: 10}}>
+          <Grid relaxed>
+            <Grid.Row>
+              <Grid.Column width={4}>
+                <div>Mines Left: {minesLeftCount}</div>
+              </Grid.Column>
+              <Grid.Column width={8}>
+                <div>Score: {score}</div>
+              </Grid.Column>
+              <Grid.Column width={4}>
+                <Timer 
+                  time={time} 
+                  savedTimerCallback={savedTimerCallback}
+                  isGameOver={isGameOver}
+                />
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
+          <Board
+            rows={rows}
+            cols={cols}
+            handleScore={handleScore}
+            mineCount={mineCount}
+            isGameOver={isGameOver}
+            handleLose={handleLose}
+            handleWin={handleWin}
+          />
         </Container>
-      {/* </DefaultLayout> */}
+      </Container>
       <GameOverModal 
         score={score}
         isModalOpen={isModalOpen}

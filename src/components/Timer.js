@@ -10,7 +10,7 @@ const Timer = props => {
       const id = setInterval(tick, 1000);
       return () => clearInterval(id);
     }
-  }, [time, isGameOver])
+  }, [time, isGameOver, savedTimerCallback])
 
   return (
     <div>

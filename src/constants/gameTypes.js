@@ -12,5 +12,5 @@ export const INTERMEDIATE = {
 export const EXPERT = {
   rows: 16,
   cols: 30,
-  mineCount: 400,
+  mineCount: 99,
 };

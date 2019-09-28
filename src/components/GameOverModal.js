@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import { Button, Modal, Transition, Input } from 'semantic-ui-react'
 
 const GameOverModal = props => {
-  const { score, isModalOpen, isGameOver, handlePlayAgain } = props;
+  const { score, isModalOpen, isWon, handlePlayAgain } = props;
 
-  const gameStatus = isGameOver ? 'Game Over' : 'You Won';
+  const gameStatus = isWon ? 'You Won' : 'Game Over';
 
   return (
     <Transition visible={isModalOpen} animation='scale' duration={500}>

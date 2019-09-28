@@ -52,12 +52,12 @@ const App = props => {
   // }
 
   const handleLose = () => {
-    updateGameStatus({ isGameOver: true });
+    updateGameStatus({ isGameOver: true, isWon: false });
     setIsModalOpen(true);
   }
 
   const handleWin = () => {
-    updateGameStatus({ isWon: true });
+    updateGameStatus({ isGameOver: true, isWon: true });
     setIsModalOpen(true);
   }
 
@@ -71,7 +71,6 @@ const App = props => {
 
   const handleGameDifficultyChange = difficulty => {
     updateGameStatus({ isGameOver: false, isWon: false });
-    // setUpBoard(rows, cols, mineCount);
     setDifficulty(difficulty);
     updateGameScore(0);
     setTime(0);
@@ -122,11 +121,11 @@ const App = props => {
                   <div>Score: {score}</div>
                 </Grid.Column>
                 <Grid.Column width={4}>
-                  {/* <Timer 
+                  <Timer 
                     time={time} 
                     savedTimerCallback={savedTimerCallback}
                     isGameOver={isGameOver}
-                  /> */}
+                  />
                 </Grid.Column>
               </Grid.Row>
             </Grid>
@@ -145,7 +144,7 @@ const App = props => {
       <GameOverModal 
         score={score}
         isModalOpen={isModalOpen}
-        isGameOver={isGameOver}
+        isWon={isWon}
         handlePlayAgain={handlePlayAgain}
       />
     </div>

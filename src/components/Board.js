@@ -8,35 +8,49 @@ const Board = props => {
   const { 
     board, 
     isGameOver, 
-    handleIsGameOver, 
+    handleLose, 
+    handleWin,
     handleScore, 
     revealTile,
     revealEmptyTiles,
     toggleFlag,
-    moveMine
+    moveMine,
+    nonMineTilesCount
   } = props;
 
   const [isFirstClick, setIsFirstClick] = useState(true);
 
+  // console.log("isFirstClick: " + isFirstClick);
+
   const handleLeftClick = tile => {
     if (isGameOver || tile.isVisible || tile.isFlagged) return;
+
     if (tile.isMine) {
       if (isFirstClick) {
         moveMine(board, tile);
       } else {
-        handleIsGameOver()
+        revealTile(tile.id)
         setIsFirstClick(true);
+        handleLose();
+        return;
       }
     };
+
     setIsFirstClick(false);
     if (!tile.isVisible && !tile.isMine) handleScore();
     // tile is empty
+    // revealTile(tile.id)
     if (tile.value === 0) {
-      revealTile(tile.id)
       revealEmptyTiles(tile, board);
     } else {
       revealTile(tile.id)
     }
+    // console.log('nonMineTilesCount: ' + nonMineTilesCount)
+    // if(nonMineTilesCount === 0) {
+    //   console.log("you won!")
+    //   setIsFirstClick(true);
+    //   handleWin();
+    // }
   }
 
   const handleRightClick = (e, tile) => {
@@ -44,6 +58,14 @@ const Board = props => {
     if (isGameOver || (tile.isVisible && !tile.isFlagged)) return;
     toggleFlag(tile.id);
   }  
+
+  useEffect(() => {
+    if (!isFirstClick && nonMineTilesCount === 0) {
+      console.log("you won!")
+      setIsFirstClick(true);
+      handleWin();
+    }
+  })
 
 
   return (

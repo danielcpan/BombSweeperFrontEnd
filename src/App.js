@@ -25,6 +25,7 @@ const App = props => {
     mineCount,
     score,
     isGameOver,
+    isWon,
     updateGameStatus,
     updateGameScore,
     setGameDifficulty,
@@ -34,6 +35,7 @@ const App = props => {
   } = props;
 
   const [time, setTime] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [difficulty, setDifficulty] = useState(BEGINNER);
   const savedTimerCallback = useRef();
 
@@ -45,8 +47,18 @@ const App = props => {
     setTime(time + 1);
   }  
 
-  const handleIsGameOver = () => {
+  // const handleIsGameOver = () => {
+  //   updateGameStatus({ isGameOver: true });
+  // }
+
+  const handleLose = () => {
     updateGameStatus({ isGameOver: true });
+    setIsModalOpen(true);
+  }
+
+  const handleWin = () => {
+    updateGameStatus({ isWon: true });
+    setIsModalOpen(true);
   }
 
   const handleScore = () => {
@@ -64,10 +76,11 @@ const App = props => {
   }
 
   const handlePlayAgain = () => {
-    updateGameStatus({ isGameOver: false });
+    updateGameStatus({ isGameOver: false, isWon: false });
     setUpBoard(rows, cols, mineCount);
-    setTime(0);
     updateGameScore(0);
+    setTime(0);
+    setIsModalOpen(false);
   }
 
   useEffect(() => {
@@ -121,15 +134,17 @@ const App = props => {
               handleScore={handleScore}
               mineCount={mineCount}
               isGameOver={isGameOver}
-              handleIsGameOver={handleIsGameOver}
+              handleLose={handleLose}
+              handleWin={handleWin}
             />
           </Container>
         </Container>
       </DefaultLayout>
       <GameOverModal 
-      score={score}
-      isGameOver={isGameOver} 
-      handlePlayAgain={handlePlayAgain}
+        score={score}
+        isModalOpen={isModalOpen}
+        isGameOver={isGameOver}
+        handlePlayAgain={handlePlayAgain}
       />
     </div>
   );
@@ -158,6 +173,7 @@ const mapStateToProps = state => ({
   mineCount: state.game.mineCount,
   score: state.game.score,
   isGameOver: state.game.isGameOver,
+  isWon: state.game.isWon,
   nonMineTilesCount: state.board.nonMineTilesCount,
   minesLeftCount: state.board.minesLeftCount,
 });

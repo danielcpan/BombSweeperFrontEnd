@@ -1,4 +1,5 @@
 import {
+  UPDATE_BOARD,
   SET_UP_BOARD,
   REVEAL_TILE,
   REVEAL_EMPTY_TILES,
@@ -14,7 +15,7 @@ const initialState = {
 
   export default (state = initialState, action) => {
     switch (action.type) {
-      case 'UPDATE_BOARD':
+      case UPDATE_BOARD:
         return {
           ...state,
           byId: action.payload,

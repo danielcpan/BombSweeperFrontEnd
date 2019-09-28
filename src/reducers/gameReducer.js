@@ -10,6 +10,7 @@ const initialState = {
   mineCount: 0,
   score: 0,
   isGameOver: false,
+  isWin: false,
 };
 
   export default (state = initialState, action) => {
@@ -29,7 +30,7 @@ const initialState = {
       case UPDATE_GAME_STATUS:
           return { 
             ...state, 
-            isGameOver: action.payload.isGameOver
+            ...action.payload
           };          
       default:
         return state;

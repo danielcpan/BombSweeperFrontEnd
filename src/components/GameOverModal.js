@@ -2,17 +2,17 @@ import React, { useState } from 'react'
 import { Button, Modal, Transition, Input } from 'semantic-ui-react'
 
 const GameOverModal = props => {
-  const { score, isGameOver, handlePlayAgain } = props;
+  const { score, isModalOpen, isGameOver, handlePlayAgain } = props;
+
+  const gameStatus = isGameOver ? 'Game Over' : 'You Won';
 
   return (
-    <Transition visible={isGameOver} animation='scale' duration={500}>
-      <Modal size='mini' basic centered open={isGameOver} style={{textAlign: 'center'}}>
-        <Modal.Header><h1>Game Over</h1></Modal.Header>
+    <Transition visible={isModalOpen} animation='scale' duration={500}>
+      <Modal size='mini' basic centered open={isModalOpen} style={{textAlign: 'center'}}>
+        <Modal.Header><h1>{gameStatus}</h1></Modal.Header>
         <Modal.Content>
-        {/* <div style={{ textAlign: 'center'}}>Your Score: 123</div> */}
           <div>Your Score: {score}</div>
           <div>Your High Score: N/A</div>
-          {/* <input>Hello</input> */}
           <div>
             <span>Your Name:</span>
             <Input fluid placeholder='Search...' />

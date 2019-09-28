@@ -1,4 +1,5 @@
 import {
+  UPDATE_BOARD,
   SET_UP_BOARD,
   REVEAL_TILE,
   REVEAL_EMPTY_TILES,
@@ -53,7 +54,7 @@ export const moveMine = (board, tile) => async dispatch => {
   const { tileIds, allIds } = normalizeBoard(boardClone)  
 
     dispatch({
-      type: 'UPDATE_BOARD',
+      type: UPDATE_BOARD,
       payload: tileIds,
       allIds
     })

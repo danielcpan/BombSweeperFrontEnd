@@ -1,8 +1,35 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { connect } from 'react-redux';
 import { Button, Modal, Transition, Input } from 'semantic-ui-react'
+import * as LeaderboardActions from '../actions/leaderboardActions';
 
 const GameOverModal = props => {
-  const { score, isModalOpen, isWon, handlePlayAgain } = props;
+  const { score, isModalOpen, isWon, handlePlayAgain, addHighScore } = props;
+  const [formData, setFormData] = useState({
+    playerName: '' 
+  })
+
+  const handleChange = (e) => {
+    const val = e.target.value;
+    setFormData(prevState => ({
+      ...prevState,
+      playerName: val
+    }))
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const scoreData = {
+      ...formData,
+      difficulty: 'Beginner',
+      value: score,
+      seconds: 50,
+      createdAt: new Date()
+    }
+    addHighScore(scoreData);
+  }
+
+  // console.log(formData)
 
   const gameStatus = isWon ? 'You Won' : 'Game Over';
 
@@ -14,8 +41,15 @@ const GameOverModal = props => {
           <div>Your Score: {score}</div>
           <div>Your High Score: N/A</div>
           <div>
-            <span>Your Name:</span>
-            <Input fluid placeholder='Search...' />
+            <form onSubmit={handleSubmit}>
+              <span>Your Name:</span>
+              <Input 
+                fluid 
+                onChange={handleChange}
+                placeholder='Enter desired username...'
+                value={formData.playerName}
+              />
+            </form>
           </div>
         </Modal.Content>
         <Modal.Actions>
@@ -24,6 +58,7 @@ const GameOverModal = props => {
             color='red' 
             inverted 
             content='Submit Score' 
+            onClick={handleSubmit}
             />
           <Button 
             basic 
@@ -38,4 +73,9 @@ const GameOverModal = props => {
   )
 }
 
-export default GameOverModal
+const mapDispatchToProps = dispatch => ({
+  addHighScore: data => dispatch(LeaderboardActions.addHighScore(data))
+  // setUpBoard: (rows, cols, mineCount) => dispatch(BoardActions.setUpBoard(rows, cols, mineCount)),
+});
+
+export default connect(null, mapDispatchToProps)(GameOverModal)

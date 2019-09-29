@@ -6,7 +6,8 @@ import * as GameActions from '../actions/gameActions';
 import * as BoardActions from '../actions/boardActions';
 import GameOverModal from '../components/GameOverModal';
 import Timer from '../components/Timer';
-import { BEGINNER, INTERMEDIATE, EXPERT } from '../constants/gameTypes';
+import GameDifficultyTabs from '../components/GameDifficultyTabs';
+import { BEGINNER, INTERMEDIATE, EXPERT } from '../constants/difficultyTypes';
 
 const App = props => {
   const {
@@ -24,8 +25,8 @@ const App = props => {
   } = props;
 
   const [time, setTime] = useState(0);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [difficulty, setDifficulty] = useState(BEGINNER);
+  const [isModalOpen, setIsModalOpen] = useState(true);
+  const [difficultyType, setDifficultyType] = useState(BEGINNER);
   const savedTimerCallback = useRef();
 
   useEffect(() => {
@@ -57,9 +58,9 @@ const App = props => {
 
   }
 
-  const handleGameDifficultyChange = difficulty => {
+  const handleGameDifficultyChange = difficultyType => {
     updateGameStatus({ isGameOver: false, isWon: false });
-    setDifficulty(difficulty);
+    setDifficultyType(difficultyType);
     updateGameScore(0);
     setTime(0);
   }
@@ -73,30 +74,14 @@ const App = props => {
   }
 
   useEffect(() => {
-    setGameDifficulty(difficulty)
+    setGameDifficulty(difficultyType)
     setUpBoard(rows, cols, mineCount);
-  }, [rows, cols, mineCount, difficulty, setGameDifficulty, setUpBoard])
+  }, [rows, cols, mineCount, difficultyType, setGameDifficulty, setUpBoard])
 
   return (
     <div className="App">
-      <Container>
-        <Grid.Column style={{marginTop: 10}}>
-          <Button 
-            active={difficulty === BEGINNER} 
-            onClick={() => handleGameDifficultyChange(BEGINNER)}
-            content='Beginner'
-          />
-          <Button 
-            active={difficulty === INTERMEDIATE} 
-            onClick={() => handleGameDifficultyChange(INTERMEDIATE)}
-            content='Intermediate'
-          />
-          <Button 
-            active={difficulty === EXPERT} 
-            onClick={ () => handleGameDifficultyChange(EXPERT)}
-            content='Expert'
-          />
-        </Grid.Column>
+      <Container style={{marginTop: 20}}>
+        <GameDifficultyTabs handleClick={handleGameDifficultyChange} />
         
         <Container textAlign='center' style={{ marginTop: 10}}>
           <Grid relaxed>

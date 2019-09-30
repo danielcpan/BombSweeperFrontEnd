@@ -1,38 +1,38 @@
 import React, { useState } from 'react';
-import { Button, Container, Grid } from 'semantic-ui-react'
+import { Button, Container, Grid } from 'semantic-ui-react';
 import { BEGINNER, INTERMEDIATE, EXPERT } from '../constants/difficultyTypes';
 
-const App = props => {
+const App = (props) => {
   const { handleClick } = props;
 
   const [difficulty, setDifficulty] = useState(BEGINNER);
 
-  const handleActive = difficulty => () => {
+  const handleActive = (difficulty) => () => {
     setDifficulty(difficulty);
     handleClick(difficulty);
-  }
+  };
 
   return (
     <Container>
-      <Grid.Column style={{marginTop: 10}}>
-        <Button 
-          active={difficulty === BEGINNER} 
+      <Grid.Column style={{ marginTop: 10 }}>
+        <Button
+          active={difficulty === BEGINNER}
           onClick={handleActive(BEGINNER)}
-          content='Beginner'
+          content="Beginner"
         />
-        <Button 
-          active={difficulty === INTERMEDIATE} 
+        <Button
+          active={difficulty === INTERMEDIATE}
           onClick={handleActive(INTERMEDIATE)}
-          content='Intermediate'
+          content="Intermediate"
         />
-        <Button 
-          active={difficulty === EXPERT} 
+        <Button
+          active={difficulty === EXPERT}
           onClick={handleActive(EXPERT)}
-          content='Expert'
+          content="Expert"
         />
-      </Grid.Column>    
+      </Grid.Column>
     </Container>
   );
-}
+};
 
 export default App;

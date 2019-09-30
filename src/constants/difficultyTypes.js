@@ -1,4 +1,4 @@
 // GAME DIFFICULTY TYPES
-export const BEGINNER = 'Beginner'
-export const INTERMEDIATE = 'Intermediate'
-export const EXPERT = 'Expert'
+export const BEGINNER = 'beginner';
+export const INTERMEDIATE = 'intermediate';
+export const EXPERT = 'expert';

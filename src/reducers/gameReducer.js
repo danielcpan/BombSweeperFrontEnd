@@ -13,26 +13,26 @@ const initialState = {
   isWin: false,
 };
 
-  export default (state = initialState, action) => {
-    switch (action.type) {
-      case SET_GAME_DIFFICULTY:
-        return { 
-          ...state, 
-          ...action.payload,
-          score: 0,
-          isGameOver: false
-        };
-      case UPDATE_GAME_SCORE:
-        return { 
-          ...state, 
-          score: action.payload
-        };
-      case UPDATE_GAME_STATUS:
-          return { 
-            ...state, 
-            ...action.payload
-          };          
-      default:
-        return state;
-    }
+export default (state = initialState, action) => {
+  switch (action.type) {
+    case SET_GAME_DIFFICULTY:
+      return {
+        ...state,
+        ...action.payload,
+        score: 0,
+        isGameOver: false,
+      };
+    case UPDATE_GAME_SCORE:
+      return {
+        ...state,
+        score: action.payload,
+      };
+    case UPDATE_GAME_STATUS:
+      return {
+        ...state,
+        ...action.payload,
+      };
+    default:
+      return state;
   }
+};

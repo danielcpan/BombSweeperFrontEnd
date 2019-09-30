@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import format from 'date-fns/format';
-import _ from 'lodash'
-import { Table, Container } from 'semantic-ui-react'
+import _ from 'lodash';
+import { Table, Container } from 'semantic-ui-react';
 
-const LeaderboardTable = props => {
+const LeaderboardTable = (props) => {
   const [column, setColumn] = useState(null);
   const [data, setData] = useState([]);
   const [direction, setDirection] = useState(null);
 
-  const handleSort = clickedColumn => () => {
+  const handleSort = (clickedColumn) => () => {
     if (column !== clickedColumn) {
       setColumn(clickedColumn);
       setData(_.sortBy(data, [clickedColumn]));
@@ -18,52 +18,52 @@ const LeaderboardTable = props => {
 
     setData(data.reverse());
     setDirection(direction === 'ascending' ? 'descending' : 'ascending');
-  }
+  };
 
   useEffect(() => {
-    setData(props.data)
-  }, [props])
+    setData(props.data);
+  }, [props]);
 
   return (
-    <Container style={{marginTop: 25}}>
+    <Container style={{ marginTop: 25 }}>
       <div>
         <h1>Top 100 Scores for Beginner</h1>
       </div>
       <Table unstackable>
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell 
+            <Table.HeaderCell
               sorted={column === 'Rank' ? direction : null}
               onClick={handleSort('Rank')}
-              content={'Rank'}
+              content="Rank"
             />
-            <Table.HeaderCell 
+            <Table.HeaderCell
               sorted={column === 'Player' ? direction : null}
               onClick={handleSort('Player')}
-              content={'Player'}
+              content="Player"
             />
-            <Table.HeaderCell 
+            <Table.HeaderCell
               sorted={column === 'Score' ? direction : null}
               onClick={handleSort('Score')}
-              content={'Score'}
+              content="Score"
             />
-            <Table.HeaderCell 
+            <Table.HeaderCell
               sorted={column === 'Time' ? direction : null}
               onClick={handleSort('Time')}
-              content={'Time'}
+              content="Time"
             />
-            <Table.HeaderCell 
+            <Table.HeaderCell
               sorted={column === 'Date' ? direction : null}
               onClick={handleSort('Date')}
-              content={'Date'}
-            />                                                
+              content="Date"
+            />
           </Table.Row>
         </Table.Header>
 
         <Table.Body>
-          {data.map(score => (
+          {data.map((score) => (
             <Table.Row key={score._id}>
-              <Table.Cell>{score._id}</Table.Cell>
+              <Table.Cell>{score.rank}</Table.Cell>
               <Table.Cell>{score.playerName}</Table.Cell>
               <Table.Cell>{score.value}</Table.Cell>
               <Table.Cell>{score.seconds}</Table.Cell>
@@ -73,7 +73,7 @@ const LeaderboardTable = props => {
         </Table.Body>
       </Table>
     </Container>
-  )
-}
+  );
+};
 
-export default LeaderboardTable
+export default LeaderboardTable;

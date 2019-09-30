@@ -5,6 +5,6 @@ module.exports = {
   test: {
   },
   production: {
-    API_URL: "https://tiny-url-clone-api.herokuapp.com",
+    API_URL: 'https://tiny-url-clone-api.herokuapp.com',
   },
 };

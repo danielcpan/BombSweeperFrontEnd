@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
-import { Button, Container, Grid } from 'semantic-ui-react'
+import { Button, Container, Grid } from 'semantic-ui-react';
 import Board from '../components/Board';
 import * as GameActions from '../actions/gameActions';
 import * as BoardActions from '../actions/boardActions';
@@ -9,7 +9,7 @@ import Timer from '../components/Timer';
 import GameDifficultyTabs from '../components/GameDifficultyTabs';
 import { BEGINNER, INTERMEDIATE, EXPERT } from '../constants/difficultyTypes';
 
-const App = props => {
+const App = (props) => {
   const {
     rows,
     cols,
@@ -21,7 +21,7 @@ const App = props => {
     updateGameScore,
     setGameDifficulty,
     minesLeftCount,
-    setUpBoard
+    setUpBoard,
   } = props;
 
   const [time, setTime] = useState(0);
@@ -32,9 +32,9 @@ const App = props => {
   useEffect(() => {
     const callback = () => {
       setTime(time + 1);
-    } 
+    };
     savedTimerCallback.current = callback;
-  }, [time])
+  }, [time]);
 
   // const handleIsGameOver = () => {
   //   updateGameStatus({ isGameOver: true });
@@ -43,27 +43,27 @@ const App = props => {
   const handleLose = () => {
     updateGameStatus({ isGameOver: true, isWon: false });
     setIsModalOpen(true);
-  }
+  };
 
   const handleWin = () => {
     updateGameStatus({ isGameOver: true, isWon: true });
     setIsModalOpen(true);
-  }
+  };
 
   const handleScore = () => {
     updateGameScore(score + 1);
-  }
+  };
 
   const handleSubmitScore = () => {
 
-  }
+  };
 
-  const handleGameDifficultyChange = difficultyType => {
+  const handleGameDifficultyChange = (difficultyType) => {
     updateGameStatus({ isGameOver: false, isWon: false });
     setDifficultyType(difficultyType);
     updateGameScore(0);
     setTime(0);
-  }
+  };
 
   const handlePlayAgain = () => {
     updateGameStatus({ isGameOver: false, isWon: false });
@@ -71,30 +71,36 @@ const App = props => {
     updateGameScore(0);
     setTime(0);
     setIsModalOpen(false);
-  }
+  };
 
   useEffect(() => {
-    setGameDifficulty(difficultyType)
+    setGameDifficulty(difficultyType);
     setUpBoard(rows, cols, mineCount);
-  }, [rows, cols, mineCount, difficultyType, setGameDifficulty, setUpBoard])
+  }, [rows, cols, mineCount, difficultyType, setGameDifficulty, setUpBoard]);
 
   return (
     <div className="App">
-      <Container style={{marginTop: 20}}>
+      <Container style={{ marginTop: 20 }}>
         <GameDifficultyTabs handleClick={handleGameDifficultyChange} />
-        
-        <Container textAlign='center' style={{ marginTop: 10}}>
+
+        <Container textAlign="center" style={{ marginTop: 10 }}>
           <Grid relaxed>
             <Grid.Row>
               <Grid.Column width={4}>
-                <div>Mines Left: {minesLeftCount}</div>
+                <div>
+Mines Left:
+                  {minesLeftCount}
+                </div>
               </Grid.Column>
               <Grid.Column width={8}>
-                <div>Score: {score}</div>
+                <div>
+Score:
+                  {score}
+                </div>
               </Grid.Column>
               <Grid.Column width={4}>
-                <Timer 
-                  time={time} 
+                <Timer
+                  time={time}
                   savedTimerCallback={savedTimerCallback}
                   isGameOver={isGameOver}
                 />
@@ -112,7 +118,7 @@ const App = props => {
           />
         </Container>
       </Container>
-      <GameOverModal 
+      <GameOverModal
         score={score}
         isModalOpen={isModalOpen}
         isWon={isWon}
@@ -120,12 +126,12 @@ const App = props => {
       />
     </div>
   );
-}
+};
 
 const styles = ({
   flexGrid: {
     display: 'flex',
-    justifyContent: 'space-evenly'
+    justifyContent: 'space-evenly',
   },
   col: {
     width: '50vw',
@@ -135,11 +141,11 @@ const styles = ({
   scoreCard: {
     margin: 5,
     padding: 5,
-    borderColor: 'black'
-  }
-})
+    borderColor: 'black',
+  },
+});
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   rows: state.game.rows,
   cols: state.game.cols,
   mineCount: state.game.mineCount,
@@ -150,11 +156,11 @@ const mapStateToProps = state => ({
   minesLeftCount: state.board.minesLeftCount,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   setUpBoard: (rows, cols, mineCount) => dispatch(BoardActions.setUpBoard(rows, cols, mineCount)),
-  setGameDifficulty: settings => dispatch(GameActions.setGameDifficulty(settings)),
-  updateGameScore: score => dispatch(GameActions.updateGameScore(score)),
-  updateGameStatus: status => dispatch(GameActions.updateGameStatus(status))
+  setGameDifficulty: (settings) => dispatch(GameActions.setGameDifficulty(settings)),
+  updateGameScore: (score) => dispatch(GameActions.updateGameScore(score)),
+  updateGameStatus: (status) => dispatch(GameActions.updateGameStatus(status)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-const Timer = props => {
+const Timer = (props) => {
   const { time, savedTimerCallback, isGameOver } = props;
 
   useEffect(() => {
@@ -10,13 +10,15 @@ const Timer = props => {
       const id = setInterval(tick, 1000);
       return () => clearInterval(id);
     }
-  }, [time, isGameOver, savedTimerCallback])
+  }, [time, isGameOver, savedTimerCallback]);
 
   return (
     <div>
-      Time: {time}
+      Time:
+      {' '}
+      {time}
     </div>
-  )
-}
+  );
+};
 
 export default Timer;

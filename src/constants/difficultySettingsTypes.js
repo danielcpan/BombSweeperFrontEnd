@@ -1,5 +1,5 @@
 // GAME DIFFICULTY SETTINGS
-export const BEGINNER_SETTINGS = { 
+export const BEGINNER_SETTINGS = {
   rows: 9,
   cols: 9,
   mineCount: 10,

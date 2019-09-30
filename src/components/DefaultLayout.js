@@ -1,7 +1,7 @@
-import PropTypes from 'prop-types'
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
-import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import { Link, withRouter } from 'react-router-dom';
+
 import {
   Container,
   Icon,
@@ -10,16 +10,14 @@ import {
   Segment,
   Sidebar,
   Visibility,
-} from 'semantic-ui-react'
+} from 'semantic-ui-react';
 
-const DesktopContainer = props => {
+const DesktopContainer = (props) => {
   const [fixed, setFixed] = useState(false);
   const { location, children } = props;
 
   return (
-    <Responsive 
-      // minWidth={Responsive.onlyTablet.minWidth}
-    >
+    <Responsive>
       <Visibility
         once={false}
         onBottomPassed={() => setFixed(true)}
@@ -27,7 +25,7 @@ const DesktopContainer = props => {
       >
         <Segment
           inverted
-          textAlign='center'
+          textAlign="center"
           vertical
         >
           <Menu
@@ -42,32 +40,32 @@ const DesktopContainer = props => {
                   <h1>Bomb Sweeper</h1>
                 </Link>
               </Menu.Item>
-              <Menu.Item position='right'>
-                <Menu.Item active={'/' === location.pathname}>
+              <Menu.Item position="right">
+                <Menu.Item active={location.pathname === '/'}>
                   <Link to="/">
                     Play
                   </Link>
                 </Menu.Item>
-                <Menu.Item active={'/leaderboard' === location.pathname}>
+                <Menu.Item active={location.pathname === '/leaderboard'}>
                   <Link to="/leaderboard">
                     Leaderboard
                   </Link>
                 </Menu.Item>
-              </Menu.Item>                
+              </Menu.Item>
             </Container>
           </Menu>
         </Segment>
         {children}
       </Visibility>
-    </Responsive>    
-  )
-} 
+    </Responsive>
+  );
+};
 
 DesktopContainer.propTypes = {
   children: PropTypes.node,
-}
+};
 
-const MobileContainer = props => {
+const MobileContainer = (props) => {
   const [sidebarOpened, setSidebarOpened] = useState(false);
   const { children } = props;
 
@@ -78,26 +76,26 @@ const MobileContainer = props => {
     >
       <Sidebar
         as={Menu}
-        animation='push'
+        animation="push"
         inverted
         onHide={() => setSidebarOpened(false)}
         vertical
         visible={sidebarOpened}
       >
-        <Menu.Item as='a' active>Play</Menu.Item>
-        <Menu.Item as='a'>Leaderboard</Menu.Item>
+        <Menu.Item as="a" active>Play</Menu.Item>
+        <Menu.Item as="a">Leaderboard</Menu.Item>
       </Sidebar>
 
       <Sidebar.Pusher dimmed={sidebarOpened}>
         <Segment
           inverted
-          textAlign='center'
+          textAlign="center"
           vertical
         >
           <Container>
-            <Menu inverted pointing secondary size='large'>
-              <Menu.Item onClick={() => setSidebarOpened(true)} style={{alignSelf: 'center'}}>
-                <Icon name='sidebar' />
+            <Menu inverted pointing secondary size="large">
+              <Menu.Item onClick={() => setSidebarOpened(true)} style={{ alignSelf: 'center' }}>
+                <Icon name="sidebar" />
               </Menu.Item>
               <Menu.Item><h1>Bomb Sweeper</h1></Menu.Item>
             </Menu>
@@ -105,15 +103,15 @@ const MobileContainer = props => {
         </Segment>
         {children}
       </Sidebar.Pusher>
-    </Responsive>  
-  )
-}
+    </Responsive>
+  );
+};
 
 MobileContainer.propTypes = {
   children: PropTypes.node,
-}
+};
 
-const DefaultLayout = props => {
+const DefaultLayout = (props) => {
   const { location, children } = props;
 
   return (
@@ -121,11 +119,11 @@ const DefaultLayout = props => {
       <DesktopContainer location={location}>{children}</DesktopContainer>
       {/* <MobileContainer>{children}</MobileContainer> */}
     </div>
-  )
-}
+  );
+};
 
 DefaultLayout.propTypes = {
   children: PropTypes.node,
-}
+};
 
-export default withRouter(DefaultLayout)
+export default withRouter(DefaultLayout);

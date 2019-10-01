@@ -7,7 +7,7 @@ import * as BoardActions from '../actions/boardActions';
 import GameOverModal from '../components/GameOverModal';
 import Timer from '../components/Timer';
 import GameDifficultyTabs from '../components/GameDifficultyTabs';
-import { BEGINNER, INTERMEDIATE, EXPERT } from '../constants/difficultyTypes';
+import * as DifficultyTypes from '../constants/difficultyTypes';
 
 const App = (props) => {
   const {
@@ -26,7 +26,7 @@ const App = (props) => {
 
   const [time, setTime] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [difficultyType, setDifficultyType] = useState(BEGINNER);
+  const [difficultyType, setDifficultyType] = useState(DifficultyTypes.BEGINNER);
   const savedTimerCallback = useRef();
 
   useEffect(() => {
@@ -52,6 +52,7 @@ const App = (props) => {
 
   const handleGameDifficultyChange = (difficultyType) => {
     updateGameStatus({ isGameOver: false, isWon: false });
+    setUpBoard(rows, cols, mineCount);
     setDifficultyType(difficultyType);
     updateGameScore(0);
     setTime(0);

@@ -26,6 +26,7 @@ const Board = (props) => {
     if (tile.isMine) {
       if (isFirstClick) {
         handleScore();
+        console.log("moving mine!")
         moveMine(board, tile);
       } else {
         revealTile(tile.id);
@@ -39,6 +40,7 @@ const Board = (props) => {
     if (!tile.isVisible && !tile.isMine) handleScore();
     // tile is empty
     if (tile.value === 0) {
+      console.log(tile)
       revealEmptyTiles(tile, board);
     } else {
       revealTile(tile.id);

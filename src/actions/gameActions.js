@@ -2,6 +2,7 @@ import {
   SET_GAME_DIFFICULTY,
   UPDATE_GAME_SCORE,
   UPDATE_GAME_STATUS,
+  UPDATE_GAME
 } from '../constants/actionTypes';
 import { BEGINNER, INTERMEDIATE, EXPERT } from '../constants/difficultyTypes';
 import { BEGINNER_SETTINGS, INTERMEDIATE_SETTINGS, EXPERT_SETTINGS } from '../constants/difficultySettingsTypes';
@@ -23,16 +24,16 @@ export const setGameDifficulty = (difficultyType) => (dispatch) => {
 
   dispatch({
     type: SET_GAME_DIFFICULTY,
-    payload: difficultySettings,
+    payload: { ...difficultySettings, score: 0, isGameOver: false },
   });
 };
 
 export const updateGameStatus = (status) => ({
   type: UPDATE_GAME_STATUS,
-  payload: status,
+  payload: { status },
 });
 
 export const updateGameScore = (score) => ({
   type: UPDATE_GAME_SCORE,
-  payload: score,
+  payload: { score },
 });

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import format from 'date-fns/format';
 import _ from 'lodash';
-import { Table, Container } from 'semantic-ui-react';
+import { Table, Container, Loader } from 'semantic-ui-react';
 
 const LeaderboardTable = (props) => {
+  const { currentLeaderboard, isLoading } = props;
   const [column, setColumn] = useState(null);
   const [data, setData] = useState([]);
   const [direction, setDirection] = useState(null);
@@ -21,8 +22,8 @@ const LeaderboardTable = (props) => {
   };
 
   useEffect(() => {
-    setData(props.data);
-  }, [props]);
+    setData(currentLeaderboard);
+  }, [currentLeaderboard]);
 
   return (
     <Container style={{ marginTop: 25 }}>
@@ -72,6 +73,7 @@ const LeaderboardTable = (props) => {
           ))}
         </Table.Body>
       </Table>
+      <Loader active={isLoading} inline='centered' /> 
     </Container>
   );
 };

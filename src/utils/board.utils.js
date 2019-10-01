@@ -51,7 +51,7 @@ export const updateBoardWithAdjacents = (board) => {
 export const getAdjacentEmptyTiles = (x, y, board, tilesToReveal = {}) => {
   const adjacentTiles = getAdjacentTiles(x, y, board);
 
-  adjacentTiles.forEach((tile) => {
+  [...adjacentTiles, board[x,y]].forEach((tile) => {
     if (tile && !tile.isVisible && tile.value === 0 && !tile.isMine && !tile.isFlagged) {
       tilesToReveal[tile.id] = tile;
       tile.isVisible = true;

@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import {
-  Button, Modal, Transition, Input, List
+  Button, Modal, Transition, Input
 } from 'semantic-ui-react';
 import * as LeaderboardActions from '../actions/leaderboardActions';
-import { BEGINNER, INTERMEDIATE, EXPERT } from '../constants/difficultyTypes';
 import ErrorsList from './ErrorsList';
 
 const GameOverModal = (props) => {
@@ -64,7 +63,6 @@ const GameOverModal = (props) => {
             <form onSubmit={handleSubmit}>
               <Input
                 fluid
-                error={true}
                 onChange={handleChange}
                 label='Your Name: ' 
                 placeholder="Enter desired username..."

@@ -4,7 +4,7 @@ import { Container } from 'semantic-ui-react';
 import * as LeaderboardActions from '../actions/leaderboardActions';
 import LeaderboardTable from '../components/LeaderboardTable';
 import GameDifficultyTabs from '../components/GameDifficultyTabs';
-import { BEGINNER, INTERMEDIATE, EXPERT } from '../constants/difficultyTypes';
+import * as DifficultyTypes from '../constants/difficultyTypes';
 
 import { getLeaderboard, getLeaderboardWithRank } from '../reducers/leaderboardReducer';
 
@@ -19,7 +19,7 @@ const Leaderboard = (props) => {
     fetchLeaderboard,
   } = props;
 
-  const [difficultyType, setDifficultyType] = useState(BEGINNER);
+  const [difficultyType, setDifficultyType] = useState(DifficultyTypes.BEGINNER);
   const [currentLeaderboard, setCurrentLeaderboard] = useState([]);
 
   useEffect(() => {
@@ -36,7 +36,7 @@ const Leaderboard = (props) => {
   return (
     <Container style={{ marginTop: 20 }}>
       <GameDifficultyTabs handleClick={handleGameDifficultyChange} />
-      <LeaderboardTable data={currentLeaderboard} />
+      <LeaderboardTable currentLeaderboard={currentLeaderboard} isLoading={isLoading}/>
     </Container>
   );
 };
@@ -45,9 +45,9 @@ const mapStateToProps = (state) => ({
   isLoading: state.leaderboard.isLoading,
   hasErrored: state.leaderboard.hasErrored,
   error: state.leaderboard.error,
-  beginnerLeaderboard: getLeaderboardWithRank(state, BEGINNER),
-  intermediateLeaderboard: getLeaderboardWithRank(state, INTERMEDIATE),
-  expertLeaderboard: getLeaderboardWithRank(state, EXPERT),
+  beginnerLeaderboard: getLeaderboardWithRank(state, DifficultyTypes.BEGINNER),
+  intermediateLeaderboard: getLeaderboardWithRank(state, DifficultyTypes.INTERMEDIATE),
+  expertLeaderboard: getLeaderboardWithRank(state, DifficultyTypes.EXPERT),
 });
 
 const mapDispatchToProps = (dispatch) => ({

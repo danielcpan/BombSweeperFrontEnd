@@ -2,6 +2,7 @@ import {
   SET_GAME_DIFFICULTY,
   UPDATE_GAME_SCORE,
   UPDATE_GAME_STATUS,
+  UPDATE_GAME
 } from '../constants/actionTypes';
 
 const initialState = {
@@ -14,24 +15,16 @@ const initialState = {
 };
 
 export default (state = initialState, action) => {
-  switch (action.type) {
+  const { type, payload } = action;
+  switch (type) {
     case SET_GAME_DIFFICULTY:
-      return {
-        ...state,
-        ...action.payload,
-        score: 0,
-        isGameOver: false,
-      };
-    case UPDATE_GAME_SCORE:
-      return {
-        ...state,
-        score: action.payload,
-      };
     case UPDATE_GAME_STATUS:
+    case UPDATE_GAME_SCORE:
+    case UPDATE_GAME:
       return {
         ...state,
-        ...action.payload,
-      };
+        ...payload,
+      };      
     default:
       return state;
   }

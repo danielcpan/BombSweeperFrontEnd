@@ -48,7 +48,7 @@ const styles = ({
     display: 'flex',
     backgroundColor: '#59606f',
     alignItems: 'center',
-    borderRadius: 5,
+    borderRadius: 4,
     height: 25,
     width: 25,
     textAlign: 'center',

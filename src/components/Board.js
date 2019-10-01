@@ -63,7 +63,10 @@ const Board = (props) => {
 
   return (
     <div style={styles.board}>
-      <table onContextMenu={(e) => e.preventDefault()}>
+      <table 
+        onContextMenu={(e) => e.preventDefault()}
+        style={{borderSpacing: 0}}
+      >
         <tbody>
           {board.map((row, rowIdx) => (
             <Row

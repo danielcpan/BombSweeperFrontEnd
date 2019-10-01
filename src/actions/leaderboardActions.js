@@ -2,6 +2,7 @@ import axios from 'axios';
 import { normalize } from 'normalizr';
 import * as schema from '../schema';
 import store from '../store';
+import { logError } from './errorActions';
 
 import {
   FETCH_LEADERBOARD_REQUEST,
@@ -29,7 +30,7 @@ export const fetchLeaderboardSuccess = (difficulty, scores, ids) => ({
 
 export const fetchLeaderboardFailure = (err) => ({
   type: FETCH_LEADERBOARD_FAILURE,
-  payload: err,
+  payload: err.split(','),
 });
 
 export const fetchLeaderboard = (params) => async (dispatch) => {
@@ -46,7 +47,10 @@ export const fetchLeaderboard = (params) => async (dispatch) => {
 
     dispatch(fetchLeaderboardSuccess(difficulty, scores, result));
   } catch (err) {
-    dispatch(fetchLeaderboardFailure(err));
+    // API Errors
+    if (err.response) dispatch(fetchLeaderboardFailure(err.response.data));
+    //General Errors
+    dispatch(logError(err.message));
   }
 };
 
@@ -68,11 +72,12 @@ export const addHighScore = (data) => async (dispatch) => {
   try {
     dispatch(addHighScoreRequest());
     const response = await axios.post(`${API_URL}/api/leaderboard`, data);
-    // console.log('here111144')
     // const normalizedData = normalize(response.data, schema.leaderboardSchema)
-    // console.log(normalizedData)
     dispatch(addHighScoreSuccess(response.data));
   } catch (err) {
-    dispatch(addHighScoreFailure(err));
+    // API Errors
+    if (err.response) dispatch(addHighScoreFailure(err.response.data));
+    //General Errors
+    dispatch(logError(err));
   }
 };

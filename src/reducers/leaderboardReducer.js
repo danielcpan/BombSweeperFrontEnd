@@ -15,6 +15,7 @@ const initialState = {
   beginnerIds: [],
   intermediateIds: [],
   expertIds: [],
+  highScore: {}
 };
 
 export default (state = initialState, action) => {

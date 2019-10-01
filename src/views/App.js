@@ -25,7 +25,7 @@ const App = (props) => {
   } = props;
 
   const [time, setTime] = useState(0);
-  const [isModalOpen, setIsModalOpen] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [difficultyType, setDifficultyType] = useState(BEGINNER);
   const savedTimerCallback = useRef();
 
@@ -35,10 +35,6 @@ const App = (props) => {
     };
     savedTimerCallback.current = callback;
   }, [time]);
-
-  // const handleIsGameOver = () => {
-  //   updateGameStatus({ isGameOver: true });
-  // }
 
   const handleLose = () => {
     updateGameStatus({ isGameOver: true, isWon: false });
@@ -52,10 +48,6 @@ const App = (props) => {
 
   const handleScore = () => {
     updateGameScore(score + 1);
-  };
-
-  const handleSubmitScore = () => {
-
   };
 
   const handleGameDifficultyChange = (difficultyType) => {
@@ -87,16 +79,10 @@ const App = (props) => {
           <Grid relaxed>
             <Grid.Row>
               <Grid.Column width={4}>
-                <div>
-Mines Left:
-                  {minesLeftCount}
-                </div>
+                <div>{`Mines Left: ${minesLeftCount}`}</div>
               </Grid.Column>
               <Grid.Column width={8}>
-                <div>
-Score:
-                  {score}
-                </div>
+                <div>{`Score: ${score}`}</div>
               </Grid.Column>
               <Grid.Column width={4}>
                 <Timer
@@ -122,6 +108,8 @@ Score:
         score={score}
         isModalOpen={isModalOpen}
         isWon={isWon}
+        time={time}
+        difficultyType={difficultyType}
         handlePlayAgain={handlePlayAgain}
       />
     </div>

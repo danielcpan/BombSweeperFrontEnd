@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import {
-  Button, Modal, Transition, Input, Dimmer, Loader,
+  Button, Modal, Transition, Input, List
 } from 'semantic-ui-react';
 import * as LeaderboardActions from '../actions/leaderboardActions';
 import { BEGINNER, INTERMEDIATE, EXPERT } from '../constants/difficultyTypes';
+import ErrorsList from './ErrorsList';
 
 const GameOverModal = (props) => {
   const {
-    isLoading, score, isModalOpen, isWon, handlePlayAgain, addHighScore,
+    isLoading, error, hasErrored, score, difficultyType, isWon, isModalOpen, time, handlePlayAgain, addHighScore,
   } = props;
   const [formData, setFormData] = useState({
     playerName: '',
   });
+
+  const [clientErrors, setClientErrors] = useState([]);
 
   const handleChange = (e) => {
     const val = e.target.value;
@@ -22,13 +25,26 @@ const GameOverModal = (props) => {
     }));
   };
 
+  const handlePlayAgainHelper = (e) => {
+    setClientErrors([])
+    handlePlayAgain();
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    const errors = []
+
+    if (formData.playerName.length === 0) errors.push('Player Name Required');
+
+    if (errors.length > 0) return setClientErrors(errors);
+
+    setClientErrors([])
+
     const scoreData = {
       ...formData,
-      difficulty: EXPERT,
+      difficulty: difficultyType,
       value: score,
-      seconds: 50,
+      seconds: time,
       createdAt: new Date(),
     };
     addHighScore(scoreData);
@@ -41,21 +57,25 @@ const GameOverModal = (props) => {
       <Modal size="mini" basic centered open={isModalOpen} style={{ textAlign: 'center' }}>
         <Modal.Header><h1>{gameStatus}</h1></Modal.Header>
         <Modal.Content>
-          <div>
-Your Score:
-            {score}
-          </div>
+          <div>{`Your Score: ${score}`}</div>
           <div>Your High Score: N/A</div>
+          <div>{`Your Time: ${time}`}</div>
           <div>
             <form onSubmit={handleSubmit}>
-              <span>Your Name:</span>
               <Input
                 fluid
+                error={true}
                 onChange={handleChange}
+                label='Your Name: ' 
                 placeholder="Enter desired username..."
                 value={formData.playerName}
               />
             </form>
+            <ErrorsList 
+              clientErrors={clientErrors} 
+              hasErrored={hasErrored} 
+              serverError={error}
+            />
           </div>
         </Modal.Content>
         <Modal.Actions>
@@ -72,7 +92,7 @@ Your Score:
             color="green"
             inverted
             content="Play Again"
-            onClick={() => handlePlayAgain()}
+            onClick={handlePlayAgainHelper}
           />
         </Modal.Actions>
       </Modal>
@@ -88,7 +108,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   addHighScore: (data) => dispatch(LeaderboardActions.addHighScore(data)),
-  // setUpBoard: (rows, cols, mineCount) => dispatch(BoardActions.setUpBoard(rows, cols, mineCount)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(GameOverModal);

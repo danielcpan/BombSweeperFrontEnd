@@ -36,7 +36,11 @@ const Leaderboard = (props) => {
   return (
     <Container style={{ marginTop: 20 }}>
       <GameDifficultyTabs handleClick={handleGameDifficultyChange} />
-      <LeaderboardTable currentLeaderboard={currentLeaderboard} isLoading={isLoading}/>
+      <LeaderboardTable 
+        difficultyType={difficultyType}
+        currentLeaderboard={currentLeaderboard} 
+        isLoading={isLoading}
+      />
     </Container>
   );
 };

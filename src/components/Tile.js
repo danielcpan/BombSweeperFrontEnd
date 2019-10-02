@@ -5,7 +5,7 @@ const Tile = (props) => {
   const [isMouseOver, setIsMouseOver] = useState(false);
 
   const getTileValue = (tile) => {
-    if (tile.isFlagged) return '🚩';
+    if (tile.isFlagged && !tile.isVisible) return '🚩';
     if (!tile.isRevealed && !tile.isVisible) return '';
     if (tile.isMine) return '💣';
     if (tile.adjacentMines === 0) return '';

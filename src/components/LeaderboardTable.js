@@ -4,7 +4,7 @@ import _ from 'lodash';
 import { Table, Container, Loader } from 'semantic-ui-react';
 
 const LeaderboardTable = (props) => {
-  const { currentLeaderboard, isLoading } = props;
+  const { difficultyType, currentLeaderboard, isLoading } = props;
   const [column, setColumn] = useState(null);
   const [data, setData] = useState([]);
   const [direction, setDirection] = useState(null);
@@ -21,6 +21,10 @@ const LeaderboardTable = (props) => {
     setDirection(direction === 'ascending' ? 'descending' : 'ascending');
   };
 
+  const formatDifficultyType = (difficultyType) => {
+    return difficultyType.charAt(0).toUpperCase() + difficultyType.slice(1)
+  }
+
   useEffect(() => {
     setData(currentLeaderboard);
   }, [currentLeaderboard]);
@@ -28,7 +32,7 @@ const LeaderboardTable = (props) => {
   return (
     <Container style={{ marginTop: 25 }}>
       <div>
-        <h1>Top 100 Scores for Beginner</h1>
+        <h1>Top 100 Scores for {formatDifficultyType(difficultyType)}</h1>
       </div>
       <Table unstackable>
         <Table.Header>

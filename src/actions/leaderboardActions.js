@@ -11,6 +11,7 @@ import {
   ADD_HIGH_SCORE_REQUEST,
   ADD_HIGH_SCORE_SUCCESS,
   ADD_HIGH_SCORE_FAILURE,
+  RESET_IS_SUBMITTED
 } from '../constants/actionTypes';
 
 const env = process.env.NODE_ENV || 'development';
@@ -72,7 +73,6 @@ export const addHighScore = (data) => async (dispatch) => {
   try {
     dispatch(addHighScoreRequest());
     const response = await axios.post(`${API_URL}/api/leaderboard`, data);
-    // const normalizedData = normalize(response.data, schema.leaderboardSchema)
     dispatch(addHighScoreSuccess(response.data));
   } catch (err) {
     // API Errors
@@ -81,3 +81,7 @@ export const addHighScore = (data) => async (dispatch) => {
     dispatch(logError(err));
   }
 };
+
+export const resetIsSubmitted = () => ({
+  type: RESET_IS_SUBMITTED
+})

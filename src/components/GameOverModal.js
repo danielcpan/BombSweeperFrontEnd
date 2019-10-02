@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import {
   Button, Modal, Transition, Input
@@ -8,7 +8,7 @@ import ErrorsList from './ErrorsList';
 
 const GameOverModal = (props) => {
   const {
-    isLoading, error, hasErrored, score, difficultyType, isWon, isModalOpen, time, handlePlayAgain, addHighScore,
+    isLoading, error, hasErrored, score, difficultyType, isWon, isModalOpen, time, handlePlayAgain, addHighScore, isSubmitted, resetIsSubmitted
   } = props;
   const [formData, setFormData] = useState({
     playerName: '',
@@ -49,6 +49,15 @@ const GameOverModal = (props) => {
     addHighScore(scoreData);
   };
 
+  useEffect(() => {
+    if (isSubmitted) {
+      setTimeout(() => {
+        handlePlayAgain();
+        resetIsSubmitted();
+      }, 1500);
+    }
+  }, [isSubmitted])
+
   const gameStatus = isWon ? 'You Won' : 'Game Over';
 
   return (
@@ -57,7 +66,6 @@ const GameOverModal = (props) => {
         <Modal.Header><h1>{gameStatus}</h1></Modal.Header>
         <Modal.Content>
           <div>{`Your Score: ${score}`}</div>
-          <div>Your High Score: N/A</div>
           <div>{`Your Time: ${time}`}</div>
           <div>
             <form onSubmit={handleSubmit}>
@@ -81,7 +89,8 @@ const GameOverModal = (props) => {
             basic
             color="red"
             inverted
-            content="Submit Score"
+            disabled={isSubmitted}
+            content={!isSubmitted ? 'Submit Score' : 'Submitted!'}
             loading={isLoading}
             onClick={handleSubmit}
           />
@@ -100,12 +109,14 @@ const GameOverModal = (props) => {
 
 const mapStateToProps = (state) => ({
   isLoading: state.leaderboard.isLoading,
+  isSubmitted: state.leaderboard.isSubmitted,
   hasErrored: state.leaderboard.hasErrored,
   error: state.leaderboard.error,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   addHighScore: (data) => dispatch(LeaderboardActions.addHighScore(data)),
+  resetIsSubmitted: () => dispatch(LeaderboardActions.resetIsSubmitted())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(GameOverModal);

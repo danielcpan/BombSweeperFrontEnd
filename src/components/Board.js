@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Tile from './Tile';
-import { initBoard, getAdjacentEmptyTiles } from '../utils/board.utils';
+import { initBoard, getAdjacentEmptyTiles, getFirstNonMineTile, updateBoardWithAdjacents } from '../utils/board.utils';
 
 const Board = (props) => {
   const {
@@ -8,17 +8,18 @@ const Board = (props) => {
     cols,
     mines,
     isGameOver,
+    isFirstClick,
+    nonMineTilesCount,
+    minesLeftCount,
+    setNonMineTilesCount,
+    setMinesLeftCount,
+    setIsFirstClick,
     handleLose,
+    handleWin,
     handleScore,
-    toggleFlag,
   } = props;
 
   const [boardData, setBoardData] = useState([[]]);
-  const [nonMineTilesCount, setNonMineTilesCount] = useState(0);
-  const [minesLeftCount, setMinesLeftCount] = useState(0);
-
-  const [isFirstClick, setIsFirstClick] = useState(true);
-  const [, forceUpdate] = React.useState(0);
 
   const handleLeftClick = (tile) => {
     if (isGameOver || tile.isRevealed || tile.isFlagged || tile.isVisible) return;
@@ -26,8 +27,7 @@ const Board = (props) => {
     if (tile.isMine) {
       if (isFirstClick) {
         handleScore();
-        console.log('SUPPOSEED TO MOVE MINE!')
-        // moveMine(board, tile);
+        moveMine(tile);
       } else {
         revealTile(tile);
         setIsFirstClick(true);
@@ -39,12 +39,14 @@ const Board = (props) => {
     setIsFirstClick(false);
     if (!tile.isRevealed && !tile.isMine) handleScore();
 
-    if (tile.adjacentMines === 0) {
-      revealEmptyTiles(tile);
-    } else {
-      revealTile(tile);
-    }
+    tile.adjacentMines === 0 ? revealEmptyTiles(tile) : revealTile(tile)
   };
+
+  const handleRightClick = (e, tile) => {
+    e.preventDefault();
+    if (isGameOver || (tile.isRevealed && !tile.isFlagged)) return;
+    toggleFlag(tile);
+  };  
 
   const showAll = () => {
     const updatedBoardData = boardData.map((row) => row.map((tile) => ({ ...tile, isVisible: !tile.isVisible })));
@@ -52,17 +54,14 @@ const Board = (props) => {
   }
 
   const revealTile = (tile) => {
-    console.log('reavling tile')
-    console.log(tile)
     const updatedBoardData = boardData.map((row) => row.map((tile) => ({ ...tile })));
     updatedBoardData[tile.x][tile.y].isRevealed = true;
 
     setBoardData(updatedBoardData);
+    if (!tile.isMine) setNonMineTilesCount(prevState => prevState - 1);
   }
 
   const revealEmptyTiles = (tile) => {
-    console.log('revealing empty tiles')
-    console.log(tile)
     const updatedBoardData = boardData.map((row) => row.map((tile) => ({ ...tile })));
     const tilesToReveal = getAdjacentEmptyTiles(tile.x, tile.y, updatedBoardData);
 
@@ -70,11 +69,26 @@ const Board = (props) => {
     setNonMineTilesCount(prevState => prevState - Object.keys(tilesToReveal).length);
   }
 
-  const handleRightClick = (e, tile) => {
-    e.preventDefault();
-    if (isGameOver || (tile.isRevealed && !tile.isFlagged)) return;
-    toggleFlag(tile.id);
-  };
+  const moveMine = (tile) => {
+    let updatedBoardData = boardData.map((row) => row.map((tile) => ({ ...tile })));
+    const nonMineTile = getFirstNonMineTile(updatedBoardData, tile);
+    boardData[nonMineTile.x][nonMineTile.y].isMine = true;
+    boardData[tile.x][tile.y].isMine = false;    
+    updatedBoardData = updateBoardWithAdjacents(boardData, rows, cols);
+    setBoardData(updatedBoardData)
+  }
+
+  const toggleFlag = (tile) => {
+    const updatedBoardData = boardData.map((row) => row.map((tile) => ({ ...tile })));
+    updatedBoardData[tile.x][tile.y].isFlagged = !tile.isFlagged;
+
+    setBoardData(updatedBoardData);
+    setMinesLeftCount(!tile.isFlagged ? minesLeftCount - 1 : minesLeftCount + 1);
+  }
+
+  useEffect(() => {
+    if (!isFirstClick && nonMineTilesCount === 0) handleWin()
+  }, [isFirstClick, nonMineTilesCount])
 
   useEffect(() => {
     if (isGameOver) return;
@@ -85,7 +99,9 @@ const Board = (props) => {
 
   return (
     <div style={styles.board}>
-      <div onClick={showAll}>Show All</div>
+      {process.env.NODE_ENV === 'development' && (
+        <div onClick={showAll}>Show All</div>  
+      )}
       <table 
         onContextMenu={(e) => e.preventDefault()}
         style={{borderSpacing: 0}}

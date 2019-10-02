@@ -19,7 +19,7 @@ export const initBoard = (rows, cols, mineCount) => {
   return board;
 }
 
-export const placeMines = (boardClone, mineCount, rows, cols) => {
+export const placeMines = (board, mineCount, rows, cols) => {
   const minimum = 0;
   const maximumX = rows - 1 > 0 ? rows - 1 : 0;
   const maximumY = cols - 1 > 0 ? cols - 1: 0;
@@ -35,22 +35,22 @@ export const placeMines = (boardClone, mineCount, rows, cols) => {
   Object.keys(mines).forEach((key) => {
     const { x } = mines[key];
     const { y } = mines[key];
-    boardClone[x][y].isMine = true;
+    board[x][y].isMine = true;
   });
 
-  return boardClone;
+  return board;
 };
 
-export const updateBoardWithAdjacents = (boardClone, rows, cols) => {
+export const updateBoardWithAdjacents = (board, rows, cols) => {
   for (let x = 0; x < rows; x++) {
     for (let y = 0; y < cols; y++) {
-      if (!boardClone[x][y].isMine) {
-        boardClone[x][y].adjacentMines = getAdjacentTiles(x, y, boardClone).filter((tile) => tile && tile.isMine).length;
+      if (!board[x][y].isMine) {
+        board[x][y].adjacentMines = getAdjacentTiles(x, y, board).filter((tile) => tile && tile.isMine).length;
       }
     }
   }
 
-  return boardClone;
+  return board;
 };
 
 export const getAdjacentEmptyTiles = (x, y, board, tilesToReveal = {}) => {

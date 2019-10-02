@@ -9,27 +9,24 @@ const Board2 = (props) => {
   const {
     rows, 
     cols,
-    mineCount,
-    board,
+    mines,
     isGameOver,
     handleLose,
-    handleWin,
     handleScore,
-    // revealTile,
-    // revealEmptyTiles,
     toggleFlag,
-    moveMine,
-    nonMineTilesCount,
   } = props;
 
   const [boardData, setBoardData] = useState([[]]);
-  const [noneMineTilesCount, setNonMineTilesCount] = useState(0);
+  const [nonMineTilesCount, setNonMineTilesCount] = useState(0);
   const [minesLeftCount, setMinesLeftCount] = useState(0);
 
+  console.log('blah!')
+
   const [isFirstClick, setIsFirstClick] = useState(true);
+  const [, forceUpdate] = React.useState(0);
 
   const handleLeftClick = (tile) => {
-    if (isGameOver || tile.isRevealed || tile.isFlagged) return;
+    if (isGameOver || tile.isRevealed || tile.isFlagged || tile.isVisible) return;
 
     if (tile.isMine) {
       if (isFirstClick) {
@@ -72,6 +69,7 @@ const Board2 = (props) => {
     const tilesToReveal = getAdjacentEmptyTiles(tile.x, tile.y, updatedBoardData);
 
     setBoardData(updatedBoardData);
+    setNonMineTilesCount(prevState => prevState - Object.keys(tilesToReveal).length);
   }
 
   const handleRightClick = (e, tile) => {
@@ -81,20 +79,11 @@ const Board2 = (props) => {
   };
 
   useEffect(() => {
-    console.log('here render')
-    setBoardData(initBoard(rows, cols, mineCount));
-    setNonMineTilesCount((rows * cols) - mineCount);
-    setMinesLeftCount(mineCount);
-  }, [rows, cols, mineCount])
-
-  // useEffect(() => {
-    // if (!isFirstClick && nonMineTilesCount === 0) {
-    //   setIsFirstClick(true);
-    //   handleWin();
-    // }
-    // setBoardData(initBoard(rows, cols, mineCount))
-  // }, [rows, cols, mineCount, isFirstClick, nonMineTilesCount, handleWin]);
-
+    if (isGameOver) return;
+    setBoardData(initBoard(rows, cols, mines));
+    setNonMineTilesCount((rows * cols) - mines);
+    setMinesLeftCount(mines);
+  }, [rows, cols, mines, isGameOver])
 
   return (
     <div style={styles.board}>

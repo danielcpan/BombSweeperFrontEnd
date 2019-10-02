@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const Tile = (props) => {
   const { tile, handleLeftClick, handleRightClick } = props;
+  const [isMouseOver, setIsMouseOver] = useState(false);
 
   const getTileValue = (tile) => {
     if (tile.isFlagged) return '🚩';
@@ -12,6 +13,7 @@ const Tile = (props) => {
   };
 
   const getTileStyles = (tile) => {
+    if (isMouseOver) return styles.mouseOver;
     if (tile.isVisible) return styles.revealedTile;
     if (tile.isFlagged) return styles.flag;
     if (!tile.isRevealed) return;
@@ -25,11 +27,14 @@ const Tile = (props) => {
   };
 
   return (
-    <td
-      onClick={() => handleLeftClick(tile)}
-      onContextMenu={(e) => handleRightClick(e, tile)}
-    >
-      <div style={{ ...styles.tile, ...getTileStyles(tile) }}>
+    <td>
+      <div 
+        onClick={() => handleLeftClick(tile)}
+        onContextMenu={(e) => handleRightClick(e, tile)}
+        onMouseEnter={() => setIsMouseOver(true)}
+        onMouseLeave={() => setIsMouseOver(false)}
+        style={{ ...styles.tile, ...getTileStyles(tile) }}
+      >
         <div style={{ ...styles.tileText, ...getMineFlagTextStyles(tile) }}>
           {getTileValue(tile)}
         </div>
@@ -67,6 +72,9 @@ const styles = ({
   flag: {
     backgroundColor: '#9aacd6',
   },
+  mouseOver: {
+    backgroundColor: '#9aacd6',
+  }
 });
 
 export default Tile;

@@ -30,7 +30,7 @@ export const setGameDifficulty = (difficultyType) => (dispatch) => {
 
 export const updateGameStatus = (status) => ({
   type: UPDATE_GAME_STATUS,
-  payload: { status },
+  payload: status,
 });
 
 export const updateGameScore = (score) => ({

@@ -50,6 +50,7 @@ const App = (props) => {
       score: 0,
       time: 0,
     }));
+    setIsFirstClick(true);
     setIsModalOpen(false);
   };
 

@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import {
-  Button, Modal, Transition, Input
+  Button, Modal, Transition, Input,
 } from 'semantic-ui-react';
 import * as LeaderboardActions from '../actions/leaderboardActions';
 import ErrorsList from './ErrorsList';
 
 const GameOverModal = (props) => {
   const {
-    isLoading, error, hasErrored, score, difficultyType, isWon, isModalOpen, time, handlePlayAgain, addHighScore, isSubmitted, resetIsSubmitted
+    isLoading, error, hasErrored, score, difficultyType, isWon, isModalOpen, time, handlePlayAgain, addHighScore, isSubmitted, resetIsSubmitted,
   } = props;
   const [formData, setFormData] = useState({
     playerName: '',
@@ -25,19 +25,19 @@ const GameOverModal = (props) => {
   };
 
   const handlePlayAgainHelper = (e) => {
-    setClientErrors([])
+    setClientErrors([]);
     handlePlayAgain();
-  }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const errors = []
+    const errors = [];
 
     if (formData.playerName.length === 0) errors.push('Player Name Required');
 
     if (errors.length > 0) return setClientErrors(errors);
 
-    setClientErrors([])
+    setClientErrors([]);
 
     const scoreData = {
       ...formData,
@@ -56,7 +56,7 @@ const GameOverModal = (props) => {
         resetIsSubmitted();
       }, 1500);
     }
-  }, [isSubmitted])
+  }, [isSubmitted]);
 
   const gameStatus = isWon ? 'You Won' : 'Game Over';
 
@@ -72,14 +72,14 @@ const GameOverModal = (props) => {
               <Input
                 fluid
                 onChange={handleChange}
-                label='Your Name: ' 
+                label="Your Name: "
                 placeholder="Enter desired username..."
                 value={formData.playerName}
               />
             </form>
-            <ErrorsList 
-              clientErrors={clientErrors} 
-              hasErrored={hasErrored} 
+            <ErrorsList
+              clientErrors={clientErrors}
+              hasErrored={hasErrored}
               serverError={error}
             />
           </div>
@@ -116,7 +116,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   addHighScore: (data) => dispatch(LeaderboardActions.addHighScore(data)),
-  resetIsSubmitted: () => dispatch(LeaderboardActions.resetIsSubmitted())
+  resetIsSubmitted: () => dispatch(LeaderboardActions.resetIsSubmitted()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(GameOverModal);

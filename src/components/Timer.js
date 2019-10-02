@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
 
 const Timer = (props) => {
-  const { time, isFirstClick, savedTimerCallback, isGameOver } = props;
+  const {
+    time, isFirstClick, savedTimerCallback, isGameOver,
+  } = props;
 
   useEffect(() => {
     if (!isGameOver && !isFirstClick) {

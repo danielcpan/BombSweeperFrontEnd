@@ -21,9 +21,7 @@ const LeaderboardTable = (props) => {
     setDirection(direction === 'ascending' ? 'descending' : 'ascending');
   };
 
-  const formatDifficultyType = (difficultyType) => {
-    return difficultyType.charAt(0).toUpperCase() + difficultyType.slice(1)
-  }
+  const formatDifficultyType = (difficultyType) => difficultyType.charAt(0).toUpperCase() + difficultyType.slice(1);
 
   useEffect(() => {
     setData(currentLeaderboard);
@@ -32,7 +30,10 @@ const LeaderboardTable = (props) => {
   return (
     <Container style={{ marginTop: 25 }}>
       <div>
-        <h1>Top 100 Scores for {formatDifficultyType(difficultyType)}</h1>
+        <h1>
+Top 100 Scores for
+          {formatDifficultyType(difficultyType)}
+        </h1>
       </div>
       <Table unstackable>
         <Table.Header>
@@ -77,7 +78,7 @@ const LeaderboardTable = (props) => {
           ))}
         </Table.Body>
       </Table>
-      <Loader active={isLoading} inline='centered' /> 
+      <Loader active={isLoading} inline="centered" />
     </Container>
   );
 };

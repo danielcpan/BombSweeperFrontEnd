@@ -23,42 +23,42 @@ const App = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [difficultyType, setDifficultyType] = useState(DifficultyTypes.BEGINNER);
   const [nonMineTilesCount, setNonMineTilesCount] = useState(null);
-  const [minesLeftCount, setMinesLeftCount] = useState(null);  
+  const [minesLeftCount, setMinesLeftCount] = useState(null);
   const savedTimerCallback = useRef();
 
   const setGameDifficulty = () => {
     let difficultySettings = null;
 
     if (difficultyType === DifficultyTypes.BEGINNER) {
-      difficultySettings = DifficultySettings.BEGINNER_SETTINGS
+      difficultySettings = DifficultySettings.BEGINNER_SETTINGS;
     } else if (difficultyType === DifficultyTypes.INTERMEDIATE) {
-      difficultySettings = DifficultySettings.INTERMEDIATE_SETTINGS
+      difficultySettings = DifficultySettings.INTERMEDIATE_SETTINGS;
     } else {
-      difficultySettings = DifficultySettings.EXPERT_SETTINGS
+      difficultySettings = DifficultySettings.EXPERT_SETTINGS;
     }
 
-    setGameState(prevState => ({ 
-      ...prevState, 
-      isGameOver: false, 
-      isWon: false, 
-      score: 0, 
-      time: 0, 
-      ...difficultySettings
-    }))
-  }
+    setGameState((prevState) => ({
+      ...prevState,
+      isGameOver: false,
+      isWon: false,
+      score: 0,
+      time: 0,
+      ...difficultySettings,
+    }));
+  };
 
   const handleLose = () => {
-    setGameState(prevState => ({ ...prevState, isGameOver: true, isWon: false }))
+    setGameState((prevState) => ({ ...prevState, isGameOver: true, isWon: false }));
     setIsModalOpen(true);
   };
 
   const handleWin = () => {
-    setGameState(prevState => ({ ...prevState, isGameOver: true, isWon: true }))
+    setGameState((prevState) => ({ ...prevState, isGameOver: true, isWon: true }));
     setIsModalOpen(true);
   };
 
   const handleScore = () => {
-    setGameState(prevState => ({ ...prevState, score: prevState.score + 1 }))
+    setGameState((prevState) => ({ ...prevState, score: prevState.score + 1 }));
   };
 
   const handleGameDifficultyChange = (difficultyType) => {
@@ -67,13 +67,13 @@ const App = () => {
   };
 
   const handlePlayAgain = () => {
-    setGameState(prevState => ({ 
-      ...prevState, 
-      isGameOver: false, 
-      isWon: false, 
-      score: 0, 
-      time: 0, 
-    }))
+    setGameState((prevState) => ({
+      ...prevState,
+      isGameOver: false,
+      isWon: false,
+      score: 0,
+      time: 0,
+    }));
     setIsModalOpen(false);
   };
 
@@ -83,7 +83,7 @@ const App = () => {
 
   useEffect(() => {
     const callback = () => {
-      setGameState(prevState => ({ ...prevState, time: prevState.time + 1}))
+      setGameState((prevState) => ({ ...prevState, time: prevState.time + 1 }));
     };
     savedTimerCallback.current = callback;
   }, [gameState.time]);
@@ -93,7 +93,7 @@ const App = () => {
       <Container style={{ marginTop: 20 }}>
         <GameDifficultyTabs handleClick={handleGameDifficultyChange} />
 
-        <Container textAlign='center' style={{ marginTop: 10 }}>
+        <Container textAlign="center" style={{ marginTop: 10 }}>
           <Grid relaxed>
             <Grid.Row>
               <Grid.Column width={4}>

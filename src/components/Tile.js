@@ -28,7 +28,7 @@ const Tile = (props) => {
 
   return (
     <td>
-      <div 
+      <div
         onClick={() => handleLeftClick(tile)}
         onContextMenu={(e) => handleRightClick(e, tile)}
         onMouseEnter={() => setIsMouseOver(true)}
@@ -74,7 +74,7 @@ const styles = ({
   },
   mouseOver: {
     backgroundColor: '#9aacd6',
-  }
+  },
 });
 
 export default Tile;

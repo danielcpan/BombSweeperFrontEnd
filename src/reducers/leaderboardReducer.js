@@ -5,7 +5,7 @@ import {
   ADD_HIGH_SCORE_REQUEST,
   ADD_HIGH_SCORE_SUCCESS,
   ADD_HIGH_SCORE_FAILURE,
-  RESET_IS_SUBMITTED
+  RESET_IS_SUBMITTED,
 } from '../constants/actionTypes';
 
 const initialState = {
@@ -17,7 +17,7 @@ const initialState = {
   beginnerIds: [],
   intermediateIds: [],
   expertIds: [],
-  highScore: {}
+  highScore: {},
 };
 
 export default (state = initialState, action) => {

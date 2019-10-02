@@ -10,19 +10,19 @@ function Tile(x, y) {
 }
 
 export const initBoard = (rows, cols, mineCount) => {
-  console.log('INITING AGAIN')
+  console.log('INITING AGAIN');
   let board = new Array(rows).fill(null)
-  .map((row, rowIdx) => new Array(cols).fill(null)
-    .map((el, colIdx) => new Tile(rowIdx, colIdx)));
+    .map((row, rowIdx) => new Array(cols).fill(null)
+      .map((el, colIdx) => new Tile(rowIdx, colIdx)));
   board = placeMines(board, mineCount, rows, cols);
   board = updateBoardWithAdjacents(board, rows, cols);
   return board;
-}
+};
 
 export const placeMines = (board, mineCount, rows, cols) => {
   const minimum = 0;
   const maximumX = rows - 1 > 0 ? rows - 1 : 0;
-  const maximumY = cols - 1 > 0 ? cols - 1: 0;
+  const maximumY = cols - 1 > 0 ? cols - 1 : 0;
   const mines = {};
 
   for (let i = 0; i < mineCount; i++) {

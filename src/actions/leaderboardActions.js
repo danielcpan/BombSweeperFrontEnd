@@ -11,7 +11,7 @@ import {
   ADD_HIGH_SCORE_REQUEST,
   ADD_HIGH_SCORE_SUCCESS,
   ADD_HIGH_SCORE_FAILURE,
-  RESET_IS_SUBMITTED
+  RESET_IS_SUBMITTED,
 } from '../constants/actionTypes';
 
 const env = process.env.NODE_ENV || 'development';
@@ -50,7 +50,7 @@ export const fetchLeaderboard = (params) => async (dispatch) => {
   } catch (err) {
     // API Errors
     if (err.response) dispatch(fetchLeaderboardFailure(err.response.data));
-    //General Errors
+    // General Errors
     dispatch(logError(err.message));
   }
 };
@@ -77,11 +77,11 @@ export const addHighScore = (data) => async (dispatch) => {
   } catch (err) {
     // API Errors
     if (err.response) dispatch(addHighScoreFailure(err.response.data));
-    //General Errors
+    // General Errors
     dispatch(logError(err));
   }
 };
 
 export const resetIsSubmitted = () => ({
-  type: RESET_IS_SUBMITTED
-})
+  type: RESET_IS_SUBMITTED,
+});

@@ -8,5 +8,5 @@ export default combineReducers({
   // game: gameReducer,
   // board: boardReducer,
   leaderboard: leaderboardReducer,
-  errors: errorReducer
+  errors: errorReducer,
 });

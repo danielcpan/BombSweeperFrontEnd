@@ -3,7 +3,7 @@ import { List } from 'semantic-ui-react';
 
 const ErrorsList = (props) => {
   const { clientErrors, hasErrored, serverError } = props;
-  const serverErrorList = hasErrored ? serverError.message.split(',') : []
+  const serverErrorList = hasErrored ? serverError.message.split(',') : [];
 
   return (
     <List bulleted>
@@ -23,8 +23,8 @@ const ErrorsList = (props) => {
 
 const styles = ({
   error: {
-    color: '#ff695e'
-  }
+    color: '#ff695e',
+  },
 });
 
 export default ErrorsList;

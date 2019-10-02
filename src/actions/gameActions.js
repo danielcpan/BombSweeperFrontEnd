@@ -5,5 +5,5 @@ import {
 // FETCH LEADERBOARD ACTIONS
 export const updateGame = (settings) => ({
   type: UPDATE_GAME,
-  payload: settings
+  payload: settings,
 });

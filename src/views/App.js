@@ -22,8 +22,6 @@ const App = (props) => {
     isWon: false,
   });
 
-  console.log('blah')
-
   const [isFirstClick, setIsFirstClick] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [nonMineTilesCount, setNonMineTilesCount] = useState(null);
@@ -44,10 +42,6 @@ const App = (props) => {
     setGameState((prevState) => ({ ...prevState, score: prevState.score + 1 }));
   };
 
-  // const handleGameDifficultyChange = () => {
-  //   setIsFirstClick(true);
-  // };
-
   const handlePlayAgain = () => {
     setGameState((prevState) => ({
       ...prevState,
@@ -62,7 +56,7 @@ const App = (props) => {
   useEffect(() => {
     const setGameDifficulty = () => {
       let difficultySettings = null;
-  
+
       if (difficultyType === DifficultyTypes.BEGINNER) {
         difficultySettings = DifficultySettings.BEGINNER_SETTINGS;
       } else if (difficultyType === DifficultyTypes.INTERMEDIATE) {
@@ -70,7 +64,7 @@ const App = (props) => {
       } else {
         difficultySettings = DifficultySettings.EXPERT_SETTINGS;
       }
-  
+
       setGameState((prevState) => ({
         ...prevState,
         isGameOver: false,
@@ -82,7 +76,7 @@ const App = (props) => {
     };
 
     setGameDifficulty(difficultyType);
-  }, [difficultyType]);
+  }, []);
 
   useEffect(() => {
     const callback = () => {

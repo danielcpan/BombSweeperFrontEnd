@@ -2,7 +2,7 @@
 export const BEGINNER_SETTINGS = {
   rows: 9,
   cols: 9,
-  mines: 10,
+  mines: 1,
 };
 export const INTERMEDIATE_SETTINGS = {
   rows: 16,

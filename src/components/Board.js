@@ -60,7 +60,10 @@ const Board = (props) => {
     updatedBoardData[tile.x][tile.y].isRevealed = true;
 
     setBoardData(updatedBoardData);
-    if (!tile.isMine) setNonMineTilesCount((prevState) => prevState - 1);
+    if (!tile.isMine) {
+      checkIfWon(1);
+      setNonMineTilesCount((prevState) => prevState - 1);
+    }
   };
 
   const revealEmptyTiles = (tile) => {
@@ -68,6 +71,7 @@ const Board = (props) => {
     const tilesToReveal = getAdjacentEmptyTiles(tile.x, tile.y, updatedBoardData);
 
     setBoardData(updatedBoardData);
+    checkIfWon(Object.keys(tilesToReveal).length)
     setNonMineTilesCount((prevState) => prevState - Object.keys(tilesToReveal).length);
   };
 
@@ -80,6 +84,10 @@ const Board = (props) => {
     setBoardData(updatedBoardData);
   };
 
+  const checkIfWon = (tilesToReveal) => {
+    if (nonMineTilesCount - tilesToReveal === 0) handleWin()
+  }
+
   const toggleFlag = (tile) => {
     const updatedBoardData = boardData.map((row) => row.map((tile) => ({ ...tile })));
     updatedBoardData[tile.x][tile.y].isFlagged = !tile.isFlagged;
@@ -89,17 +97,12 @@ const Board = (props) => {
   };
 
   useEffect(() => {
-    if (!isFirstClick && nonMineTilesCount === 0) handleWin();
-  }, [isFirstClick, nonMineTilesCount, handleWin]);
-
-  useEffect(() => {
     if (isGameOver) return;
     setBoardData(initBoard(rows, cols, mines));
     setNonMineTilesCount((rows * cols) - mines);
     setMinesLeftCount(mines);
   }, [rows, cols, mines, isGameOver, setNonMineTilesCount, setMinesLeftCount]);
 
-  console.log('board')
   return (
     <div style={styles.board}>
       {process.env.NODE_ENV === 'development' && (

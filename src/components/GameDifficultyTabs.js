@@ -8,7 +8,7 @@ const GameDifficultyTabs = (props) => {
   const { difficultyType, updateGame } = props;
 
   const handleActive = (difficulty) => () => {
-    updateGame({difficultyType: difficulty});
+    updateGame({ difficultyType: difficulty });
   };
 
   return (

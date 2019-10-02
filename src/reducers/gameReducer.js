@@ -1,5 +1,5 @@
 import {
-  UPDATE_GAME
+  UPDATE_GAME,
 } from '../constants/actionTypes';
 
 import * as DifficultyTypes from '../constants/difficultyTypes';
@@ -14,7 +14,7 @@ export default (state = initialState, action) => {
     case UPDATE_GAME:
       return {
         ...state,
-        ...payload
+        ...payload,
       };
     default:
       return state;

@@ -23,7 +23,7 @@ const Leaderboard = (props) => {
 
   useEffect(() => {
     setCurrentLeaderboard(leaderboard);
-  }, [leaderboard, isLoading])
+  }, [leaderboard, isLoading]);
 
   return (
     <Container style={{ marginTop: 20 }}>

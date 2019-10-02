@@ -8,12 +8,23 @@ import ErrorsList from './ErrorsList';
 
 const GameOverModal = (props) => {
   const {
-    isLoading, error, hasErrored, score, difficultyType, isWon, isModalOpen, time, handlePlayAgain, addHighScore, isSubmitted, resetIsSubmitted,
+    isLoading, 
+    error, 
+    hasErrored, 
+    score, 
+    difficultyType, 
+    isWon, 
+    isModalOpen, 
+    time, 
+    handlePlayAgain, 
+    addHighScore, 
+    isSubmitted, 
+    resetIsSubmitted,
   } = props;
+
   const [formData, setFormData] = useState({
     playerName: '',
   });
-
   const [clientErrors, setClientErrors] = useState([]);
 
   const handleChange = (e) => {
@@ -56,7 +67,7 @@ const GameOverModal = (props) => {
         resetIsSubmitted();
       }, 1500);
     }
-  }, [isSubmitted, handlePlayAgain, resetIsSubmitted]);  
+  }, [isSubmitted, handlePlayAgain, resetIsSubmitted]);
 
   const gameStatus = isWon ? 'You Won' : 'Game Over';
 
@@ -67,33 +78,37 @@ const GameOverModal = (props) => {
         <Modal.Content>
           <div>{`Your Score: ${score}`}</div>
           <div>{`Your Time: ${time}`}</div>
-          <div>
-            <form onSubmit={handleSubmit}>
-              <Input
-                fluid
-                onChange={handleChange}
-                label="Your Name: "
-                placeholder="Enter desired username..."
-                value={formData.playerName}
+          {isWon && (
+            <div>
+              <form onSubmit={handleSubmit}>
+                <Input
+                  fluid
+                  onChange={handleChange}
+                  label="Your Name: "
+                  placeholder="Enter desired username..."
+                  value={formData.playerName}
+                />
+              </form>
+              <ErrorsList
+                clientErrors={clientErrors}
+                hasErrored={hasErrored}
+                serverError={error}
               />
-            </form>
-            <ErrorsList
-              clientErrors={clientErrors}
-              hasErrored={hasErrored}
-              serverError={error}
-            />
-          </div>
+            </div>
+          )}
         </Modal.Content>
         <Modal.Actions>
-          <Button
-            basic
-            color="red"
-            inverted
-            disabled={isSubmitted}
-            content={!isSubmitted ? 'Submit Score' : 'Submitted!'}
-            loading={isLoading}
-            onClick={handleSubmit}
-          />
+          {isWon && (
+            <Button
+              basic
+              color="red"
+              inverted
+              disabled={isSubmitted}
+              content={!isSubmitted ? 'Submit Score' : 'Submitted!'}
+              loading={isLoading}
+              onClick={handleSubmit}
+            />
+          )}
           <Button
             basic
             color="green"

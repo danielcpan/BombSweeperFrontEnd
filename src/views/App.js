@@ -1,10 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { Container, Grid } from 'semantic-ui-react';
-// import Board from '../components/Board';
-import Board2 from '../components/Board2';
-import * as GameActions from '../actions/gameActions';
-import * as BoardActions from '../actions/boardActions';
+import Board from '../components/Board';
 import GameOverModal from '../components/GameOverModal';
 import Timer from '../components/Timer';
 import GameDifficultyTabs from '../components/GameDifficultyTabs';
@@ -12,9 +9,7 @@ import * as DifficultyTypes from '../constants/difficultyTypes';
 import * as DifficultySettings from '../constants/difficultySettingsTypes';
 
 const App = (props) => {
-  const {
-    minesLeftCount,
-  } = props;
+  const { minesLeftCount } = props;
 
   const [gameState, setGameState] = useState({
     rows: 0,
@@ -31,7 +26,6 @@ const App = (props) => {
   const savedTimerCallback = useRef();
 
   const setGameDifficulty = () => {
-    console.log('settingGameDifficulty')
     let difficultySettings = null;
 
     if (difficultyType === DifficultyTypes.BEGINNER) {
@@ -60,26 +54,20 @@ const App = (props) => {
 
   const handleLose = () => {
     setGameState(prevState => ({ ...prevState, isGameOver: true, isWon: false }))
-    // updateGameStatus({ isGameOver: true, isWon: false });
-    // setIsGameOverLocal(true);
     setIsModalOpen(true);
   };
 
   const handleWin = () => {
     setGameState(prevState => ({ ...prevState, isGameOver: true, isWon: true }))
-    // updateGameStatus({ isGameOver: true, isWon: true });
     setIsModalOpen(true);
   };
 
   const handleScore = () => {
-    // updateGameScore(score + 1);
+    setGameState(prevState => ({ ...prevState, score: prevState.score + 1 }))
   };
 
   const handleGameDifficultyChange = (difficultyType) => {
-
-    // updateGameStatus({ isGameOver: false, isWon: false });
     setDifficultyType(difficultyType);
-    // updateGameScore(0);
     setTime(0);
   };
 
@@ -89,10 +77,7 @@ const App = (props) => {
       isGameOver: false, 
       isWon: false, 
       score: 0, 
-    }))    
-    // setIsGameOverLocal(false);
-    // updateGameStatus({ isGameOver: false, isWon: false });
-    // updateGameScore(0);
+    }))
     setTime(0);
     setIsModalOpen(false);
   };
@@ -100,7 +85,6 @@ const App = (props) => {
   console.log(gameState)
 
   useEffect(() => {
-    // setGameState(prevState => ({ ...gameState, ...}))
     setGameDifficulty(difficultyType);
   }, [difficultyType]);
 
@@ -119,21 +103,20 @@ const App = (props) => {
                 <div>{`Score: ${gameState.score}`}</div>
               </Grid.Column>
               <Grid.Column width={4}>
-                {/* <Timer
+                <Timer
                   time={time}
                   savedTimerCallback={savedTimerCallback}
-                  isGameOver={isGameOver}
-                /> */}
+                  isGameOver={gameState.isGameOver}
+                />
               </Grid.Column>
             </Grid.Row>
           </Grid>
-          <Board2
+          <Board
             rows={gameState.rows}
             cols={gameState.cols}
             handleScore={handleScore}
             mines={gameState.mines}
             isGameOver={gameState.isGameOver}
-            isGameOverLocal={isGameOverLocal}
             handleLose={handleLose}
             handleWin={handleWin}
           />

@@ -1,35 +1,35 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
-import * as BoardActions from '../actions/boardActions';
-import { selectTiles } from '../reducers/boardReducer';
 import Tile from './Tile';
+import { initBoard, getAdjacentEmptyTiles } from '../utils/board.utils';
 
 const Board = (props) => {
   const {
-    board,
+    rows, 
+    cols,
+    mines,
     isGameOver,
     handleLose,
-    handleWin,
     handleScore,
-    revealTile,
-    revealEmptyTiles,
     toggleFlag,
-    moveMine,
-    nonMineTilesCount,
   } = props;
 
+  const [boardData, setBoardData] = useState([[]]);
+  const [nonMineTilesCount, setNonMineTilesCount] = useState(0);
+  const [minesLeftCount, setMinesLeftCount] = useState(0);
+
   const [isFirstClick, setIsFirstClick] = useState(true);
+  const [, forceUpdate] = React.useState(0);
 
   const handleLeftClick = (tile) => {
-    if (isGameOver || tile.isVisible || tile.isFlagged) return;
+    if (isGameOver || tile.isRevealed || tile.isFlagged || tile.isVisible) return;
 
     if (tile.isMine) {
       if (isFirstClick) {
         handleScore();
-        console.log("moving mine!")
-        moveMine(board, tile);
+        console.log('SUPPOSEED TO MOVE MINE!')
+        // moveMine(board, tile);
       } else {
-        revealTile(tile.id);
+        revealTile(tile);
         setIsFirstClick(true);
         handleLose();
         return;
@@ -37,38 +37,61 @@ const Board = (props) => {
     }
 
     setIsFirstClick(false);
-    if (!tile.isVisible && !tile.isMine) handleScore();
-    // tile is empty
-    if (tile.value === 0) {
-      console.log(tile)
-      revealEmptyTiles(tile, board);
+    if (!tile.isRevealed && !tile.isMine) handleScore();
+
+    if (tile.adjacentMines === 0) {
+      revealEmptyTiles(tile);
     } else {
-      revealTile(tile.id);
+      revealTile(tile);
     }
   };
 
+  const showAll = () => {
+    const updatedBoardData = boardData.map((row) => row.map((tile) => ({ ...tile, isVisible: !tile.isVisible })));
+    setBoardData(updatedBoardData);
+  }
+
+  const revealTile = (tile) => {
+    console.log('reavling tile')
+    console.log(tile)
+    const updatedBoardData = boardData.map((row) => row.map((tile) => ({ ...tile })));
+    updatedBoardData[tile.x][tile.y].isRevealed = true;
+
+    setBoardData(updatedBoardData);
+  }
+
+  const revealEmptyTiles = (tile) => {
+    console.log('revealing empty tiles')
+    console.log(tile)
+    const updatedBoardData = boardData.map((row) => row.map((tile) => ({ ...tile })));
+    const tilesToReveal = getAdjacentEmptyTiles(tile.x, tile.y, updatedBoardData);
+
+    setBoardData(updatedBoardData);
+    setNonMineTilesCount(prevState => prevState - Object.keys(tilesToReveal).length);
+  }
+
   const handleRightClick = (e, tile) => {
     e.preventDefault();
-    if (isGameOver || (tile.isVisible && !tile.isFlagged)) return;
+    if (isGameOver || (tile.isRevealed && !tile.isFlagged)) return;
     toggleFlag(tile.id);
   };
 
   useEffect(() => {
-    if (!isFirstClick && nonMineTilesCount === 0) {
-      setIsFirstClick(true);
-      handleWin();
-    }
-  }, [isFirstClick, nonMineTilesCount, handleWin]);
-
+    if (isGameOver) return;
+    setBoardData(initBoard(rows, cols, mines));
+    setNonMineTilesCount((rows * cols) - mines);
+    setMinesLeftCount(mines);
+  }, [rows, cols, mines, isGameOver])
 
   return (
     <div style={styles.board}>
+      <div onClick={showAll}>Show All</div>
       <table 
         onContextMenu={(e) => e.preventDefault()}
         style={{borderSpacing: 0}}
       >
         <tbody>
-          {board.map((row, rowIdx) => (
+          {boardData.map((row, rowIdx) => (
             <Row
               key={rowIdx}
               row={row}
@@ -108,16 +131,4 @@ const styles = ({
   },
 });
 
-const mapStateToProps = (state) => ({
-  board: selectTiles(state),
-  nonMineTilesCount: state.board.nonMineTilesCount,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  revealTile: (tileId) => dispatch(BoardActions.revealTile(tileId)),
-  revealEmptyTiles: (tile, board) => dispatch(BoardActions.revealEmptyTiles(tile, board)),
-  toggleFlag: (tileId) => dispatch(BoardActions.toggleFlag(tileId)),
-  moveMine: (board, tile) => dispatch(BoardActions.moveMine(board, tile)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Board);
+export default Board;

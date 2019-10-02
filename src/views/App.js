@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { connect } from 'react-redux';
 import { Container, Grid } from 'semantic-ui-react';
 import * as DifficultyTypes from '../constants/difficultyTypes';
 import * as DifficultySettings from '../constants/difficultySettingsTypes';
@@ -8,7 +9,9 @@ import Board from '../components/Board';
 import GameOverModal from '../components/GameOverModal';
 import Timer from '../components/Timer';
 
-const App = () => {
+const App = (props) => {
+  const { difficultyType } = props;
+
   const [gameState, setGameState] = useState({
     rows: 0,
     cols: 0,
@@ -19,33 +22,13 @@ const App = () => {
     isWon: false,
   });
 
+  console.log('blah')
+
   const [isFirstClick, setIsFirstClick] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [difficultyType, setDifficultyType] = useState(DifficultyTypes.BEGINNER);
   const [nonMineTilesCount, setNonMineTilesCount] = useState(null);
   const [minesLeftCount, setMinesLeftCount] = useState(null);
   const savedTimerCallback = useRef();
-
-  const setGameDifficulty = () => {
-    let difficultySettings = null;
-
-    if (difficultyType === DifficultyTypes.BEGINNER) {
-      difficultySettings = DifficultySettings.BEGINNER_SETTINGS;
-    } else if (difficultyType === DifficultyTypes.INTERMEDIATE) {
-      difficultySettings = DifficultySettings.INTERMEDIATE_SETTINGS;
-    } else {
-      difficultySettings = DifficultySettings.EXPERT_SETTINGS;
-    }
-
-    setGameState((prevState) => ({
-      ...prevState,
-      isGameOver: false,
-      isWon: false,
-      score: 0,
-      time: 0,
-      ...difficultySettings,
-    }));
-  };
 
   const handleLose = () => {
     setGameState((prevState) => ({ ...prevState, isGameOver: true, isWon: false }));
@@ -61,10 +44,9 @@ const App = () => {
     setGameState((prevState) => ({ ...prevState, score: prevState.score + 1 }));
   };
 
-  const handleGameDifficultyChange = (type) => {
-    setDifficultyType(type);
-    setIsFirstClick(true);
-  };
+  // const handleGameDifficultyChange = () => {
+  //   setIsFirstClick(true);
+  // };
 
   const handlePlayAgain = () => {
     setGameState((prevState) => ({
@@ -78,6 +60,27 @@ const App = () => {
   };
 
   useEffect(() => {
+    const setGameDifficulty = () => {
+      let difficultySettings = null;
+  
+      if (difficultyType === DifficultyTypes.BEGINNER) {
+        difficultySettings = DifficultySettings.BEGINNER_SETTINGS;
+      } else if (difficultyType === DifficultyTypes.INTERMEDIATE) {
+        difficultySettings = DifficultySettings.INTERMEDIATE_SETTINGS;
+      } else {
+        difficultySettings = DifficultySettings.EXPERT_SETTINGS;
+      }
+  
+      setGameState((prevState) => ({
+        ...prevState,
+        isGameOver: false,
+        isWon: false,
+        score: 0,
+        time: 0,
+        ...difficultySettings,
+      }));
+    };
+
     setGameDifficulty(difficultyType);
   }, [difficultyType]);
 
@@ -91,7 +94,7 @@ const App = () => {
   return (
     <div className="App">
       <Container style={{ marginTop: 20 }}>
-        <GameDifficultyTabs handleClick={handleGameDifficultyChange} />
+        <GameDifficultyTabs />
 
         <Container textAlign="center" style={{ marginTop: 10 }}>
           <Grid relaxed>
@@ -141,4 +144,8 @@ const App = () => {
   );
 };
 
-export default App;
+const mapStateToProps = (state) => ({
+  difficultyType: state.game.difficultyType,
+});
+
+export default connect(mapStateToProps)(App);

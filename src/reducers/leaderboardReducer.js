@@ -68,12 +68,11 @@ export default (state = initialState, action) => {
 };
 
 // SELECTORS
-export const getLeaderboard = (state, difficulty) => state.leaderboard[`${difficulty}Ids`].map((id) => state.leaderboard.byId[id]);
-
-export const getLeaderboardWithRank = (state, difficulty) => {
-  return state.leaderboard[`${difficulty}Ids`].map((id, idx) => {
+export const getLeaderboardWithRank = (state) => {
+  return state.leaderboard[`${state.game.difficultyType}Ids`].map((id, idx) => {
     const score = state.leaderboard.byId[id];
     score.rank = idx + 1;
     return score;
   }
 )};
+

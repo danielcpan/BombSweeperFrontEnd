@@ -1,32 +1,31 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
 import { Button, Container, Grid } from 'semantic-ui-react';
 import { BEGINNER, INTERMEDIATE, EXPERT } from '../constants/difficultyTypes';
+import * as GameActions from '../actions/gameActions';
 
-const App = (props) => {
-  const { handleClick } = props;
-
-  const [difficulty, setDifficulty] = useState(BEGINNER);
+const GameDifficultyTabs = (props) => {
+  const { difficultyType, updateGame } = props;
 
   const handleActive = (difficulty) => () => {
-    setDifficulty(difficulty);
-    handleClick(difficulty);
+    updateGame({difficultyType: difficulty});
   };
 
   return (
     <Container>
       <Grid.Column style={{ marginTop: 10 }}>
         <Button
-          active={difficulty === BEGINNER}
+          active={difficultyType === BEGINNER}
           onClick={handleActive(BEGINNER)}
           content="Beginner"
         />
         <Button
-          active={difficulty === INTERMEDIATE}
+          active={difficultyType === INTERMEDIATE}
           onClick={handleActive(INTERMEDIATE)}
           content="Intermediate"
         />
         <Button
-          active={difficulty === EXPERT}
+          active={difficultyType === EXPERT}
           onClick={handleActive(EXPERT)}
           content="Expert"
         />
@@ -35,4 +34,12 @@ const App = (props) => {
   );
 };
 
-export default App;
+const mapStateToProps = (state) => ({
+  difficultyType: state.game.difficultyType,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  updateGame: (settings) => dispatch(GameActions.updateGame(settings)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(GameDifficultyTabs);

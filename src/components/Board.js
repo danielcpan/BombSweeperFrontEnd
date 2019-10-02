@@ -90,15 +90,16 @@ const Board = (props) => {
 
   useEffect(() => {
     if (!isFirstClick && nonMineTilesCount === 0) handleWin();
-  }, [isFirstClick, nonMineTilesCount]);
+  }, [isFirstClick, nonMineTilesCount, handleWin]);
 
   useEffect(() => {
     if (isGameOver) return;
     setBoardData(initBoard(rows, cols, mines));
     setNonMineTilesCount((rows * cols) - mines);
     setMinesLeftCount(mines);
-  }, [rows, cols, mines, isGameOver]);
+  }, [rows, cols, mines, isGameOver, setNonMineTilesCount, setMinesLeftCount]);
 
+  console.log('board')
   return (
     <div style={styles.board}>
       {process.env.NODE_ENV === 'development' && (

@@ -56,7 +56,7 @@ const GameOverModal = (props) => {
         resetIsSubmitted();
       }, 1500);
     }
-  }, [isSubmitted]);
+  }, [isSubmitted, handlePlayAgain, resetIsSubmitted]);  
 
   const gameStatus = isWon ? 'You Won' : 'Game Over';
 

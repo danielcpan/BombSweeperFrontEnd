@@ -4,38 +4,30 @@ import { Container } from 'semantic-ui-react';
 import * as LeaderboardActions from '../actions/leaderboardActions';
 import LeaderboardTable from '../components/LeaderboardTable';
 import GameDifficultyTabs from '../components/GameDifficultyTabs';
-import * as DifficultyTypes from '../constants/difficultyTypes';
 
-import { getLeaderboard, getLeaderboardWithRank } from '../reducers/leaderboardReducer';
+import { getLeaderboardWithRank } from '../reducers/leaderboardReducer';
 
 const Leaderboard = (props) => {
   const {
+    difficultyType,
+    leaderboard,
     isLoading,
-    hasErrored,
-    error,
-    beginnerLeaderboard,
-    intermediateLeaderboard,
-    expertLeaderboard,
     fetchLeaderboard,
   } = props;
 
-  const [difficultyType, setDifficultyType] = useState(DifficultyTypes.BEGINNER);
   const [currentLeaderboard, setCurrentLeaderboard] = useState([]);
 
   useEffect(() => {
-    const getCurrentLeaderboard = () => props[`${difficultyType}Leaderboard`];
-
     fetchLeaderboard({ difficulty: difficultyType });
-    setCurrentLeaderboard(getCurrentLeaderboard());
-  }, [fetchLeaderboard, difficultyType, isLoading]);
+  }, [fetchLeaderboard, difficultyType]);
 
-  const handleGameDifficultyChange = (difficultyType) => {
-    setDifficultyType(difficultyType);
-  };
+  useEffect(() => {
+    setCurrentLeaderboard(leaderboard);
+  }, [leaderboard, isLoading])
 
   return (
     <Container style={{ marginTop: 20 }}>
-      <GameDifficultyTabs handleClick={handleGameDifficultyChange} />
+      <GameDifficultyTabs />
       <LeaderboardTable
         difficultyType={difficultyType}
         currentLeaderboard={currentLeaderboard}
@@ -46,12 +38,11 @@ const Leaderboard = (props) => {
 };
 
 const mapStateToProps = (state) => ({
+  difficultyType: state.game.difficultyType,
   isLoading: state.leaderboard.isLoading,
   hasErrored: state.leaderboard.hasErrored,
   error: state.leaderboard.error,
-  beginnerLeaderboard: getLeaderboardWithRank(state, DifficultyTypes.BEGINNER),
-  intermediateLeaderboard: getLeaderboardWithRank(state, DifficultyTypes.INTERMEDIATE),
-  expertLeaderboard: getLeaderboardWithRank(state, DifficultyTypes.EXPERT),
+  leaderboard: getLeaderboardWithRank(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({

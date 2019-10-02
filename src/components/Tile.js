@@ -5,15 +5,16 @@ const Tile = (props) => {
 
   const getTileValue = (tile) => {
     if (tile.isFlagged) return '🚩';
-    if (!tile.isVisible) return '';
+    if (!tile.isRevealed && !tile.isVisible) return '';
     if (tile.isMine) return '💣';
-    if (tile.value === 0) return '';
-    return tile.value;
+    if (tile.adjacentMines === 0) return '';
+    return tile.adjacentMines;
   };
 
   const getTileStyles = (tile) => {
+    if (tile.isVisible) return styles.revealedTile;
     if (tile.isFlagged) return styles.flag;
-    if (!tile.isVisible) return;
+    if (!tile.isRevealed) return;
     if (tile.isMine) return styles.mine;
     return styles.revealedTile;
   };

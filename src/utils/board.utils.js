@@ -2,21 +2,27 @@ function Tile(x, y) {
   this.id = `${x}-${y}`;
   this.x = x;
   this.y = y;
-  this.value = null;
+  this.adjacentMines = 0;
   this.isMine = false;
   this.isFlagged = false;
-  this.isVisible = false;
+  this.isRevealed = false;
+  this.isRevealed = false;
 }
 
-export const initBoard = (rows, cols) => new Array(rows).fill(null)
+export const initBoard = (rows, cols, mineCount) => {
+  console.log('INITING AGAIN')
+  let board = new Array(rows).fill(null)
   .map((row, rowIdx) => new Array(cols).fill(null)
     .map((el, colIdx) => new Tile(rowIdx, colIdx)));
+  board = placeMines(board, mineCount, rows, cols);
+  board = updateBoardWithAdjacents(board, rows, cols);
+  return board;
+}
 
-export const placeMines = (board, mineCount) => {
-  const boardClone = board.map((row) => row.map((tile) => ({ ...tile })));
+export const placeMines = (boardClone, mineCount, rows, cols) => {
   const minimum = 0;
-  const maximumX = board.length - 1;
-  const maximumY = board[0] ? board[0].length - 1 : 0;
+  const maximumX = rows - 1 > 0 ? rows - 1 : 0;
+  const maximumY = cols - 1 > 0 ? cols - 1: 0;
   const mines = {};
 
   for (let i = 0; i < mineCount; i++) {
@@ -35,12 +41,11 @@ export const placeMines = (board, mineCount) => {
   return boardClone;
 };
 
-export const updateBoardWithAdjacents = (board) => {
-  const boardClone = board.map((row) => row.map((tile) => ({ ...tile })));
-  for (let x = 0; x < boardClone.length; x++) {
-    for (let y = 0; y < boardClone[0].length; y++) {
+export const updateBoardWithAdjacents = (boardClone, rows, cols) => {
+  for (let x = 0; x < rows; x++) {
+    for (let y = 0; y < cols; y++) {
       if (!boardClone[x][y].isMine) {
-        boardClone[x][y].value = getAdjacentTiles(x, y, boardClone).filter((tile) => tile && tile.isMine).length;
+        boardClone[x][y].adjacentMines = getAdjacentTiles(x, y, boardClone).filter((tile) => tile && tile.isMine).length;
       }
     }
   }
@@ -52,14 +57,14 @@ export const getAdjacentEmptyTiles = (x, y, board, tilesToReveal = {}) => {
   const adjacentTiles = getAdjacentTiles(x, y, board);
 
   [...adjacentTiles, board[x,y]].forEach((tile) => {
-    if (tile && !tile.isVisible && tile.value === 0 && !tile.isMine && !tile.isFlagged) {
+    if (tile && !tile.isRevealed && tile.adjacentMines === 0 && !tile.isMine && !tile.isFlagged) {
       tilesToReveal[tile.id] = tile;
-      tile.isVisible = true;
+      tile.isRevealed = true;
       getAdjacentEmptyTiles(tile.x, tile.y, board, tilesToReveal);
     }
     // Check Empty's adjacent
-    if (tile && !tile.isVisible && !tile.isMine && !tile.isFlagged) {
-      tile.isVisible = true;
+    if (tile && !tile.isRevealed && !tile.isMine && !tile.isFlagged) {
+      tile.isRevealed = true;
       tilesToReveal[tile.id] = tile;
     }
   });

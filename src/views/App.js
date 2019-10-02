@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
-import { Button, Container, Grid } from 'semantic-ui-react';
-import Board from '../components/Board';
+import { Container, Grid } from 'semantic-ui-react';
+// import Board from '../components/Board';
+import Board2 from '../components/Board2';
 import * as GameActions from '../actions/gameActions';
 import * as BoardActions from '../actions/boardActions';
 import GameOverModal from '../components/GameOverModal';
@@ -60,7 +61,7 @@ const App = (props) => {
 
   const handlePlayAgain = () => {
     updateGameStatus({ isGameOver: false, isWon: false });
-    setUpBoard(rows, cols, mineCount);
+    // setUpBoard(rows, cols, mineCount);
     updateGameScore(0);
     setTime(0);
     setIsModalOpen(false);
@@ -68,7 +69,7 @@ const App = (props) => {
 
   useEffect(() => {
     setGameDifficulty(difficultyType);
-    setUpBoard(rows, cols, mineCount);
+    // setUpBoard(rows, cols, mineCount);
   }, [rows, cols, mineCount, difficultyType, setGameDifficulty, setUpBoard]);
 
   return (
@@ -86,15 +87,15 @@ const App = (props) => {
                 <div>{`Score: ${score}`}</div>
               </Grid.Column>
               <Grid.Column width={4}>
-                <Timer
+                {/* <Timer
                   time={time}
                   savedTimerCallback={savedTimerCallback}
                   isGameOver={isGameOver}
-                />
+                /> */}
               </Grid.Column>
             </Grid.Row>
           </Grid>
-          <Board
+          <Board2
             rows={rows}
             cols={cols}
             handleScore={handleScore}

@@ -16,9 +16,7 @@ const Timer = (props) => {
 
   return (
     <div>
-      Time:
-      {' '}
-      {time}
+      {`Time: ${time}`}
     </div>
   );
 };

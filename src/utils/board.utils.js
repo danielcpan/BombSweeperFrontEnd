@@ -10,7 +10,6 @@ function Tile(x, y) {
 }
 
 export const initBoard = (rows, cols, mineCount) => {
-  console.log('INITING AGAIN');
   let board = new Array(rows).fill(null)
     .map((row, rowIdx) => new Array(cols).fill(null)
       .map((el, colIdx) => new Tile(rowIdx, colIdx)));
@@ -45,7 +44,8 @@ export const updateBoardWithAdjacents = (board, rows, cols) => {
   for (let x = 0; x < rows; x++) {
     for (let y = 0; y < cols; y++) {
       if (!board[x][y].isMine) {
-        board[x][y].adjacentMines = getAdjacentTiles(x, y, board).filter((tile) => tile && tile.isMine).length;
+        board[x][y].adjacentMines = getAdjacentTiles(x, y, board)
+          .filter((tile) => tile && tile.isMine).length;
       }
     }
   }

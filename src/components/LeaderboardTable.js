@@ -31,8 +31,7 @@ const LeaderboardTable = (props) => {
     <Container style={{ marginTop: 25 }}>
       <div>
         <h1>
-Top 100 Scores for
-          {formatDifficultyType(difficultyType)}
+          {`Top 100 Scores for ${formatDifficultyType(difficultyType)}`}
         </h1>
       </div>
       <Table unstackable>

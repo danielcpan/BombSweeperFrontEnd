@@ -61,8 +61,8 @@ const App = () => {
     setGameState((prevState) => ({ ...prevState, score: prevState.score + 1 }));
   };
 
-  const handleGameDifficultyChange = (difficultyType) => {
-    setDifficultyType(difficultyType);
+  const handleGameDifficultyChange = (type) => {
+    setDifficultyType(type);
     setIsFirstClick(true);
   };
 

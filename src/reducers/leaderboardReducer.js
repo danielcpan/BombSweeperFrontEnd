@@ -17,7 +17,6 @@ const initialState = {
   beginnerIds: [],
   intermediateIds: [],
   expertIds: [],
-  highScore: {},
 };
 
 export default (state = initialState, action) => {
@@ -57,8 +56,6 @@ export default (state = initialState, action) => {
         isSubmitted: true,
         hasErrored: false,
         error: null,
-
-        // scores: [...state.scores, action.payload]
       };
     case RESET_IS_SUBMITTED:
       return {
@@ -73,8 +70,10 @@ export default (state = initialState, action) => {
 // SELECTORS
 export const getLeaderboard = (state, difficulty) => state.leaderboard[`${difficulty}Ids`].map((id) => state.leaderboard.byId[id]);
 
-export const getLeaderboardWithRank = (state, difficulty) => state.leaderboard[`${difficulty}Ids`].map((id, idx) => {
-  const score = state.leaderboard.byId[id];
-  score.rank = idx + 1;
-  return score;
-});
+export const getLeaderboardWithRank = (state, difficulty) => {
+  return state.leaderboard[`${difficulty}Ids`].map((id, idx) => {
+    const score = state.leaderboard.byId[id];
+    score.rank = idx + 1;
+    return score;
+  }
+)};

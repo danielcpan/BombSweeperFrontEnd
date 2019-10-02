@@ -8,17 +8,17 @@ import ErrorsList from './ErrorsList';
 
 const GameOverModal = (props) => {
   const {
-    isLoading, 
-    error, 
-    hasErrored, 
-    score, 
-    difficultyType, 
-    isWon, 
-    isModalOpen, 
-    time, 
-    handlePlayAgain, 
-    addHighScore, 
-    isSubmitted, 
+    isLoading,
+    error,
+    hasErrored,
+    score,
+    difficultyType,
+    isWon,
+    isModalOpen,
+    time,
+    handlePlayAgain,
+    addHighScore,
+    isSubmitted,
     resetIsSubmitted,
   } = props;
 

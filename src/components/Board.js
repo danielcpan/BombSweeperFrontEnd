@@ -71,7 +71,7 @@ const Board = (props) => {
     const tilesToReveal = getAdjacentEmptyTiles(tile.x, tile.y, updatedBoardData);
 
     setBoardData(updatedBoardData);
-    checkIfWon(Object.keys(tilesToReveal).length)
+    checkIfWon(Object.keys(tilesToReveal).length);
     setNonMineTilesCount((prevState) => prevState - Object.keys(tilesToReveal).length);
   };
 
@@ -85,8 +85,8 @@ const Board = (props) => {
   };
 
   const checkIfWon = (tilesToReveal) => {
-    if (nonMineTilesCount - tilesToReveal === 0) handleWin()
-  }
+    if (nonMineTilesCount - tilesToReveal === 0) handleWin();
+  };
 
   const toggleFlag = (tile) => {
     const updatedBoardData = boardData.map((row) => row.map((tile) => ({ ...tile })));

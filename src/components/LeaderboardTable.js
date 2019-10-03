@@ -35,7 +35,7 @@ const LeaderboardTable = (props) => {
     <Container style={{ marginTop: 25 }}>
       <div>
         <h1>
-          {`Top 100 Scores for ${formatDifficultyType(difficultyType)} (Lower is better)`}
+          {`Top 100 Scores for ${formatDifficultyType(difficultyType)}`}
         </h1>
       </div>
       <Table unstackable striped compact selectable>
@@ -54,7 +54,7 @@ const LeaderboardTable = (props) => {
             <Table.HeaderCell
               sorted={column === 'Score' ? direction : null}
               onClick={handleSort('value')}
-              content="Score"
+              content="Score (Lower is better)"
             />
             <Table.HeaderCell
               sorted={column === 'Clicks' ? direction : null}

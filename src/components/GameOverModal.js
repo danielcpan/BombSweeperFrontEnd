@@ -47,6 +47,8 @@ const GameOverModal = (props) => {
 
     if (formData.playerName.length === 0) errors.push('Player Name Required');
 
+    if (formData.playerName.length > 16) errors.push('Player Name cannot be longer than 16 characters');
+
     if (errors.length > 0) return setClientErrors(errors);
 
     setClientErrors([]);

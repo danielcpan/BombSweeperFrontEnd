@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Tile from './Tile';
 import {
-  initBoard, getAdjacentEmptyTiles, getFirstNonMineTile, updateBoardWithAdjacents,
+  initBoard, 
+  getAdjacentEmptyTiles, 
+  getFirstNonMineTile, 
+  updateBoardWithAdjacents,
 } from '../utils/board.utils';
+import { useKeyPress } from '../utils/UseKeyPressHook';
 
 const Board = (props) => {
   const {
@@ -22,6 +26,14 @@ const Board = (props) => {
   } = props;
 
   const [boardData, setBoardData] = useState([[]]);
+  
+  // Hidden Cheat
+  const hiddenKeyPress = useKeyPress('Shift');
+  const hiddenKeyPress2 = useKeyPress('Escape');
+
+  useEffect(() => {
+    if (hiddenKeyPress && hiddenKeyPress2) showAll()
+  }, [hiddenKeyPress, hiddenKeyPress2])
 
   const handleLeftClick = (tile) => {
     if (isGameOver || tile.isRevealed || tile.isFlagged || tile.isVisible) return;

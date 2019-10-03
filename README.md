@@ -2,6 +2,8 @@
 
 Check out the app! https://bombsweeper.netlify.com
 
+API Repo: https://github.com/danielcpan/BombSweeperAPI
+
 ## Bomb Sweeper uses the following technologies:
 
 ### BackEnd: 
@@ -15,21 +17,17 @@ Check out the app! https://bombsweeper.netlify.com
 
 ### FrontEnd: 
 
-- Main Frontend Framework: Reactjs
+- Main Frontend Framework: Reactjs + React Hooks
 - State Management: Redux
 - Style Framework: Semantic UI React
 
 #### GamePlay
 
-![ShortenUrl](https://user-images.githubusercontent.com/20826907/63155035-b275b880-bfc6-11e9-8df8-5b07e69e7a81.gif)
+![BombSweeperGameplay](https://user-images.githubusercontent.com/20826907/66105691-f02ba200-e570-11e9-8c09-8138733326b7.gif)
 
 #### Leaderboard
 
-![UseShortenedUrl](https://user-images.githubusercontent.com/20826907/63155036-b275b880-bfc6-11e9-8a34-e2d01164a3e7.gif)
-
-#### Secret Cheat Code
-
-![](https://user-images.githubusercontent.com/20826907/63155037-b275b880-bfc6-11e9-9da8-dbdbe5858516.gif)
+![BombSweeperLeaderBoard](https://user-images.githubusercontent.com/20826907/66105556-a04cdb00-e570-11e9-974a-d78953d260ef.gif)
 
 #### Empty Reveal Logic
 

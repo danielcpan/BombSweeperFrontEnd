@@ -17,7 +17,7 @@ const DesktopContainer = (props) => {
   const { location, children } = props;
 
   return (
-    <Responsive>
+    <Responsive minWidth={Responsive.onlyTablet.minWidth}>
       <Visibility
         once={false}
         onBottomPassed={() => setFixed(true)}
@@ -67,7 +67,7 @@ DesktopContainer.propTypes = {
 
 const MobileContainer = (props) => {
   const [sidebarOpened, setSidebarOpened] = useState(false);
-  const { children } = props;
+  const { location, children } = props;
 
   return (
     <Responsive
@@ -82,8 +82,16 @@ const MobileContainer = (props) => {
         vertical
         visible={sidebarOpened}
       >
-        <Menu.Item as="a" active>Play</Menu.Item>
-        <Menu.Item as="a">Leaderboard</Menu.Item>
+        <Menu.Item active={location.pathname === '/'}>
+          <Link to="/" onClick={() => setSidebarOpened(false)}>
+            Play
+          </Link>
+        </Menu.Item>        
+        <Menu.Item active={location.pathname === '/leaderboard'}>
+          <Link to="/leaderboard" onClick={() => setSidebarOpened(false)}>
+            Leaderboard
+          </Link>
+        </Menu.Item>
       </Sidebar>
 
       <Sidebar.Pusher dimmed={sidebarOpened}>
@@ -117,7 +125,7 @@ const DefaultLayout = (props) => {
   return (
     <div>
       <DesktopContainer location={location}>{children}</DesktopContainer>
-      {/* <MobileContainer>{children}</MobileContainer> */}
+      <MobileContainer location={location}>{children}</MobileContainer>
     </div>
   );
 };

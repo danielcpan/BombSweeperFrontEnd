@@ -38,7 +38,7 @@ const LeaderboardTable = (props) => {
           {`Top 100 Scores for ${formatDifficultyType(difficultyType)}`}
         </h1>
       </div>
-      <Table unstackable>
+      <Table unstackable striped compact selectable>
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell

@@ -79,6 +79,7 @@ const GameOverModal = (props) => {
         <Modal.Header><h1>{gameStatus}</h1></Modal.Header>
         <Modal.Content>
           <div>{`Your Score: ${score}`}</div>
+          <div>{`Your Clicks: ${clicks}`}</div>
           <div>{`Your Time: ${time}`}</div>
           {isWon && (
             <div>

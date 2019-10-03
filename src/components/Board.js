@@ -34,6 +34,7 @@ const Board = (props) => {
         revealTile(tile);
         setIsFirstClick(true);
         handleLose();
+        setTimeout(() => showAll(), 500)
         return;
       }
     }

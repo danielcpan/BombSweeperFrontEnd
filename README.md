@@ -2,6 +2,8 @@
 
 Check out the app! https://bombsweeper.netlify.com
 
+API Repo: https://github.com/danielcpan/BombSweeperAPI
+
 ## Bomb Sweeper uses the following technologies:
 
 ### BackEnd: 

@@ -50,7 +50,7 @@ const LeaderboardTable = (props) => {
             <Table.HeaderCell
               sorted={column === 'Score' ? direction : null}
               onClick={handleSort('Score')}
-              content="Score (clicks)"
+              content="Score"
             />
             <Table.HeaderCell
               sorted={column === 'Clicks' ? direction : null}

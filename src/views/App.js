@@ -77,7 +77,7 @@ const App = (props) => {
     };
 
     setGameDifficulty(difficultyType);
-  }, []);
+  }, [difficultyType]);
 
   useEffect(() => {
     const callback = () => {

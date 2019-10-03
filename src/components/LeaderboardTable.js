@@ -12,7 +12,11 @@ const LeaderboardTable = (props) => {
   const handleSort = (clickedColumn) => () => {
     if (column !== clickedColumn) {
       setColumn(clickedColumn);
-      setData(_.sortBy(data, [clickedColumn]));
+      if (clickedColumn === 'playerName') {
+        setData(_.sortBy(data, (score) => score.playerName.toLowerCase()));
+      } else {
+        setData(_.sortBy(data, [clickedColumn]));  
+      }
       setDirection('ascending');
       return;
     }
@@ -39,32 +43,32 @@ const LeaderboardTable = (props) => {
           <Table.Row>
             <Table.HeaderCell
               sorted={column === 'Rank' ? direction : null}
-              onClick={handleSort('Rank')}
+              onClick={handleSort('rank')}
               content="Rank"
             />
             <Table.HeaderCell
               sorted={column === 'Player' ? direction : null}
-              onClick={handleSort('Player')}
+              onClick={handleSort('playerName')}
               content="Player"
             />
             <Table.HeaderCell
               sorted={column === 'Score' ? direction : null}
-              onClick={handleSort('Score')}
+              onClick={handleSort('value')}
               content="Score"
             />
             <Table.HeaderCell
               sorted={column === 'Clicks' ? direction : null}
-              onClick={handleSort('Clicks')}
+              onClick={handleSort('clicks')}
               content="Clicks"
             />            
             <Table.HeaderCell
               sorted={column === 'Time' ? direction : null}
-              onClick={handleSort('Time')}
+              onClick={handleSort('time')}
               content="Time (seconds)"
             />
             <Table.HeaderCell
               sorted={column === 'Date' ? direction : null}
-              onClick={handleSort('Date')}
+              onClick={handleSort('createdAt')}
               content="Date"
             />
           </Table.Row>

@@ -51,6 +51,7 @@ const App = (props) => {
       isWon: false,
       score: 0,
       time: 0,
+      clicks: 0,
     }));
     setIsFirstClick(true);
     setIsModalOpen(false);
@@ -74,6 +75,7 @@ const App = (props) => {
         isWon: false,
         score: 0,
         time: 0,
+        clicks: 0,
         ...difficultySettings,
       }));
     };

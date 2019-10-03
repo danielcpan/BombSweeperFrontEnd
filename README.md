@@ -21,7 +21,7 @@ Check out the app! https://bombsweeper.netlify.com
 
 #### GamePlay
 
-![BombSweeperGameplay](https://user-images.githubusercontent.com/20826907/66105579-ac389d00-e570-11e9-913f-bfeada61d517.gif)
+![BombSweeperGameplay](https://user-images.githubusercontent.com/20826907/66105691-f02ba200-e570-11e9-8c09-8138733326b7.gif)
 
 #### Leaderboard
 

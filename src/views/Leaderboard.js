@@ -19,6 +19,7 @@ const Leaderboard = (props) => {
 
   useEffect(() => {
     fetchLeaderboard({ difficulty: difficultyType });
+    setCurrentLeaderboard(leaderboard);
   }, [fetchLeaderboard, difficultyType]);
 
   useEffect(() => {

@@ -17,6 +17,7 @@ const App = (props) => {
     cols: 0,
     mines: 0,
     score: 0,
+    clicks: 0,
     time: 0,
     isGameOver: false,
     isWon: false,
@@ -39,7 +40,8 @@ const App = (props) => {
   };
 
   const handleScore = () => {
-    setGameState((prevState) => ({ ...prevState, score: prevState.score + 1 }));
+    const updatedScore = (gameState.clicks + 1) * gameState.time + 1;
+    setGameState((prevState) => ({ ...prevState, score: updatedScore, clicks: prevState.clicks + 1 }));
   };
 
   const handlePlayAgain = () => {
@@ -128,6 +130,7 @@ const App = (props) => {
         </Container>
       </Container>
       <GameOverModal
+        clicks={gameState.clicks}
         score={gameState.score}
         isModalOpen={isModalOpen}
         isWon={gameState.isWon}

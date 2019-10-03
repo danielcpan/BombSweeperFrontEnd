@@ -12,6 +12,7 @@ const GameOverModal = (props) => {
     error,
     hasErrored,
     score,
+    clicks,
     difficultyType,
     isWon,
     isModalOpen,
@@ -54,7 +55,8 @@ const GameOverModal = (props) => {
       ...formData,
       difficulty: difficultyType,
       value: score,
-      seconds: time,
+      clicks,
+      time,
       createdAt: new Date(),
     };
     addHighScore(scoreData);

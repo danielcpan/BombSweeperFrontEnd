@@ -53,6 +53,11 @@ const LeaderboardTable = (props) => {
               content="Score (clicks)"
             />
             <Table.HeaderCell
+              sorted={column === 'Clicks' ? direction : null}
+              onClick={handleSort('Score')}
+              content="Clicks"
+            />            
+            <Table.HeaderCell
               sorted={column === 'Time' ? direction : null}
               onClick={handleSort('Time')}
               content="Time (seconds)"
@@ -71,7 +76,8 @@ const LeaderboardTable = (props) => {
               <Table.Cell>{score.rank}</Table.Cell>
               <Table.Cell>{score.playerName}</Table.Cell>
               <Table.Cell>{score.value}</Table.Cell>
-              <Table.Cell>{score.seconds}</Table.Cell>
+              <Table.Cell>{score.clicks}</Table.Cell>
+              <Table.Cell>{score.time}</Table.Cell>
               <Table.Cell>{format(new Date(score.createdAt), 'MMM dd, yyyy')}</Table.Cell>
             </Table.Row>
           ))}

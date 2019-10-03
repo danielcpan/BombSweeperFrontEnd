@@ -36,10 +36,7 @@ export const fetchLeaderboardFailure = (err) => ({
 
 export const fetchLeaderboard = (params) => async (dispatch) => {
   const { difficulty } = params;
-  const scoreIds = store.getState().leaderboard[`${difficulty}Ids`];
-
-  if (scoreIds.length > 0) return;
-
+  
   try {
     dispatch(fetchLeaderboardRequest());
     const response = await axios.get(`${API_URL}/api/leaderboard`, { params });
